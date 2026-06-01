@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chandradip Fitness - Today's Workout</title>
+  <meta name="description" content="Minimalist today's exercises page.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Minimalist Header -->
+  <header>
+    <h1 class="app-title">Chandradip Fitness</h1>
+    <p class="app-subtitle">4. Today's Exercises</p>
+  </header>
+
+  <!-- Main Area -->
+  <main>
+    <div class="today-layout">
+      
+      <!-- Left side: Date & focus splits & manual slider -->
+      <div class="picker-box card-today">
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="astra-log-date">Select Date</label>
+          <input type="date" id="astra-log-date" class="form-input" onchange="loadDailyWorkouts()">
+        </div>
+
+        <div class="today-focus-card">
+          <div class="focus-title">Active Workout Focus</div>
+          <div class="focus-name" id="today-focus-value">Rest Day</div>
+        </div>
+
+        <!-- Slider Sync -->
+        <div class="slider-box">
+          <div class="form-label" style="margin-bottom: 0.25rem;">Daily Energy Tracker</div>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+            Auto-calculated from checkboxes, or fine-tune manually:
+          </p>
+          <input type="range" id="daily-progress-slider" class="slider-input" min="0" max="100" value="0" oninput="updateDailyProgressFromSlider(this.value)">
+          <div id="daily-slider-display" style="font-size: 1.1rem; font-weight: 700; color: var(--primary); margin-top: 0.3rem;">0%</div>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+          <a href="progress.html" class="btn-primary">View Overall Progress &rarr;</a>
+          <a href="weekly.html" class="btn-secondary">&larr; Edit Weekly splits</a>
+        </div>
+      </div>
+
+      <!-- Right side: Exercise blocks and creation form -->
+      <div class="exercise-list-box">
+        
+        <!-- Add Exercise Block Form -->
+        <div class="add-exercise-form card-today-action">
+          <div class="add-exercise-title">Add Exercise Block</div>
+          <form id="add-exercise-form" onsubmit="addNewExercise(event)">
+            <div class="add-grid">
+              <input type="text" id="ex-name" class="form-input" placeholder="Name (e.g. Bench Press)" required style="padding: 0.6rem;">
+              <input type="number" id="ex-weight" class="form-input" placeholder="Weight" min="0" required style="padding: 0.6rem;">
+              <div style="display: flex; gap: 0.2rem;">
+                <input type="number" id="ex-sets" class="form-input" placeholder="Sets" min="1" value="3" required style="width: 50%; padding: 0.6rem;">
+                <input type="number" id="ex-reps" class="form-input" placeholder="Reps" min="1" value="10" required style="width: 50%; padding: 0.6rem;">
+              </div>
+              <button type="submit" class="btn-add">ADD</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Exercises listing -->
+        <h3 class="form-label" style="font-size: 0.9rem; font-weight: 700;">Exercises Checklist</h3>
+        <div class="exercises-container" id="exercises-list">
+          <!-- Loaded via JS -->
+          <div class="empty-arena-msg">No exercises added for this day yet. Add one above!</div>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer>
+    Chandradip Fitness © 2026. Minimalist SQLite Console.
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast-alert" class="toast-msg">
+    Workout logs updated in SQLite database.
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default calendar date to today
+      const todayStr = new Date().toISOString().split('T')[0];
+      document.getElementById('astra-log-date').value = todayStr;
+      
+      initTodayData();
+    });
+
+    let weeklyGoals = [];
+    let dailyExercises = [];
+
+    async function initTodayData() {
+      try {
+        // Fetch weekly splits
+        const res = await fetch('/api/weekly-goals');
+        weeklyGoals = await res.json();
+        
+        await loadDailyWorkouts();
+      } catch (err) {
+        console.error('Error fetching weekly goals:', err);
+      }
+    }
+
+    async function loadDailyWorkouts() {
+      const dateStr = document.getElementById('astra-log-date').value;
+      if (!dateStr) return;
+
+      // Determine weekly split focus
+      const selectedDate = new Date(dateStr + 'T00:00:00');
+      const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+      const dayName = weekdays[selectedDate.getDay()];
+      
+      const weeklyFocus = weeklyGoals.find(g => g.day_of_week === dayName) || { focus_area: 'Rest Day' };
+      document.getElementById('today-focus-value').textContent = `${dayName}: ${weeklyFocus.focus_area}`;
+
+      try {
+        // 1. Fetch daily log percentage
+        const logRes = await fetch(`/api/daily-log/${dateStr}`);
+        const dailyLog = await logRes.json();
+        
+        document.getElementById('daily-progress-slider').value = dailyLog.work_percentage || 0;
+        document.getElementById('daily-slider-display').textContent = `${(dailyLog.work_percentage || 0).toFixed(0)}%`;
+
+        // 2. Fetch specific exercises
+        const exRes = await fetch(`/api/exercises/${dateStr}`);
+        dailyExercises = await exRes.json();
+
+        renderExercises();
+      } catch (err) {
+        console.error('Error loading daily workouts:', err);
+      }
+    }
+
+    function renderExercises() {
+      const container = document.getElementById('exercises-list');
+      container.innerHTML = '';
+
+      if (dailyExercises.length === 0) {
+        container.innerHTML = `
+          <div class="empty-arena-msg">No exercises added for this date yet. Add one above!</div>
+        `;
+        return;
+      }
+
+      dailyExercises.forEach(ex => {
+        const row = document.createElement('div');
+        row.className = `exercise-row ${ex.completed ? 'completed' : ''}`;
+        row.innerHTML = `
+          <div class="exercise-info-section" style="display: flex; align-items: center; gap: 1rem; flex: 1;">
+            <div class="checkbox-circle ${ex.completed ? 'checked' : ''}" 
+                 onclick="toggleExerciseStatus(${ex.id}, ${ex.completed})">
+              ✓
+            </div>
+            <div class="exercise-details">
+              <span class="exercise-name" style="font-weight: 600;">${ex.name}</span>
+              <span class="exercise-info">
+                Load: <span>${ex.weight} kg</span> | <span>${ex.sets} sets x ${ex.reps} reps</span>
+              </span>
+            </div>
+          </div>
+          <button class="btn-delete" onclick="deleteExercise(${ex.id})" title="Delete Exercise">
+            <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+          </button>
+        `;
+        container.appendChild(row);
+      });
+    }
+
+    async function toggleExerciseStatus(id, currentStatus) {
+      try {
+        await fetch(`/api/exercises/${id}/status`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ completed: !currentStatus })
+        });
+        showToast("Exercise status updated.");
+        await refreshDateAndRecalculate();
+      } catch (err) {
+        console.error('Error toggling exercise:', err);
+      }
+    }
+
+    async function deleteExercise(id) {
+      if (!confirm("Remove this exercise?")) return;
+      try {
+        await fetch(`/api/exercises/${id}`, { method: 'DELETE' });
+        showToast("Exercise block deleted.");
+        await refreshDateAndRecalculate();
+      } catch (err) {
+        console.error('Error deleting exercise:', err);
+      }
+    }
+
+    async function addNewExercise(event) {
+      event.preventDefault();
+      const dateStr = document.getElementById('astra-log-date').value;
+      const name = document.getElementById('ex-name').value;
+      const weight = document.getElementById('ex-weight').value;
+      const sets = document.getElementById('ex-sets').value;
+      const reps = document.getElementById('ex-reps').value;
+
+      try {
+        await fetch('/api/exercises', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date: dateStr, name, weight, sets, reps })
+        });
+
+        showToast(`Added exercise: ${name}`);
+        document.getElementById('ex-name').value = '';
+        document.getElementById('ex-weight').value = '';
+        
+        await refreshDateAndRecalculate();
+      } catch (err) {
+        console.error('Error adding exercise:', err);
+      }
+    }
+
+    async function refreshDateAndRecalculate() {
+      const dateStr = document.getElementById('astra-log-date').value;
+      const exRes = await fetch(`/api/exercises/${dateStr}`);
+      dailyExercises = await exRes.json();
+      renderExercises();
+
+      if (dailyExercises.length > 0) {
+        const completedCount = dailyExercises.filter(ex => ex.completed).length;
+        const computedPercentage = Math.round((completedCount / dailyExercises.length) * 100);
+        await syncDailyPercentage(dateStr, computedPercentage);
+      } else {
+        await syncDailyPercentage(dateStr, 0);
+      }
+    }
+
+    async function syncDailyPercentage(date, percentage) {
+      try {
+        await fetch('/api/daily-log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ date, work_percentage: percentage })
+        });
+        document.getElementById('daily-progress-slider').value = percentage;
+        document.getElementById('daily-slider-display').textContent = `${percentage}%`;
+      } catch (err) {
+        console.error('Error syncing daily progress:', err);
+      }
+    }
+
+    async function updateDailyProgressFromSlider(value) {
+      const dateStr = document.getElementById('astra-log-date').value;
+      document.getElementById('daily-slider-display').textContent = `${value}%`;
+      await syncDailyPercentage(dateStr, value);
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast-alert');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

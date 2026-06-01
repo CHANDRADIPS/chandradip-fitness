@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chandradip Fitness - Weekly Plan</title>
+  <meta name="description" content="Minimalist weekly schedule setup.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Minimalist Header -->
+  <header>
+    <h1 class="app-title">Chandradip Fitness</h1>
+    <p class="app-subtitle">3. Weekly Workout Plan</p>
+  </header>
+
+  <!-- Main Area -->
+  <main>
+    <div class="card card-weekly">
+      <h2 class="card-title">Seal Your Weekly Workout Splits</h2>
+      <p class="card-description">
+        Define your workout split focus for each day of the week. These categories will automatically load the correct workout segments on your today's goals dashboard!
+      </p>
+
+      <form id="weekly-goals-form" onsubmit="saveWeeklyGoals(event)">
+        <div class="weekly-days-grid" id="weekly-days-list">
+          <!-- Populated dynamically via JS -->
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; margin-top: 2rem;">
+          <button type="submit" class="btn-primary">Save Weekly Plan & Continue &rarr;</button>
+          <a href="progress.html" class="btn-secondary">&larr; Back to Progress Tracker</a>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer>
+    Chandradip Fitness © 2026. Minimalist SQLite Console.
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast-alert" class="toast-msg">
+    Weekly workout plan successfully sealed in SQL archives.
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', initWeeklyGoals);
+
+    let weeklyGoals = [];
+
+    async function initWeeklyGoals() {
+      try {
+        const res = await fetch('/api/weekly-goals');
+        weeklyGoals = await res.json();
+        renderWeeklyDays();
+      } catch (err) {
+        console.error('Error fetching weekly goals:', err);
+      }
+    }
+
+    function renderWeeklyDays() {
+      const container = document.getElementById('weekly-days-list');
+      container.innerHTML = '';
+
+      const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      days.forEach(day => {
+        const daySplit = weeklyGoals.find(g => g.day_of_week === day) || { focus_area: 'Rest Day' };
+        
+        const dayCard = document.createElement('div');
+        dayCard.className = 'day-card';
+        dayCard.innerHTML = `
+          <div class="day-name">${day}</div>
+          <input type="text" 
+                 class="form-input day-split-input" 
+                 value="${daySplit.focus_area}" 
+                 data-day="${day}" 
+                 placeholder="e.g. Legs & Core">
+        `;
+        container.appendChild(dayCard);
+      });
+    }
+
+    async function saveWeeklyGoals(event) {
+      event.preventDefault();
+      
+      const inputs = document.querySelectorAll('.day-split-input');
+      let successCount = 0;
+
+      for (const input of inputs) {
+        const day_of_week = input.getAttribute('data-day');
+        const focus_area = input.value || 'Rest Day';
+        
+        try {
+          await fetch('/api/weekly-goals', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ day_of_week, focus_area })
+          });
+          successCount++;
+        } catch (err) {
+          console.error(`Error saving split for ${day_of_week}:`, err);
+        }
+      }
+
+      if (successCount > 0) {
+        showToast("Weekly training plan successfully saved! Redirecting to Today's workouts...");
+        setTimeout(() => {
+          window.location.href = 'today.html';
+        }, 1200);
+      }
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById('toast-alert');
+      toast.textContent = message;
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+      }, 3000);
+    }
+  </script>
+</body>
+</html>

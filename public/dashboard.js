@@ -1,10 +1,10 @@
-// --- Sanjay's Real-time Dashboard Controller ---
+// --- Coach Telemetry Dashboard Controller ---
 
 document.addEventListener('DOMContentLoaded', () => {
   // Perform initial fetch
   fetchDashboardSummary();
   
-  // Set up live polling (every 3 seconds) to display live syncing from the shared SQL database
+  // Set up live polling (every 3 seconds) to demonstrate live syncing from the SQLite database
   setInterval(fetchDashboardSummary, 3000);
 });
 
@@ -16,7 +16,7 @@ async function fetchDashboardSummary() {
     const summary = await res.json();
     updateDashboardUI(summary);
   } catch (err) {
-    console.error('Error fetching royal companion summary:', err);
+    console.error('Error fetching companion summary:', err);
   }
 }
 
@@ -26,29 +26,30 @@ function updateDashboardUI(data) {
   if (!profile || !progress) return;
 
   // 1. Inscribe Stature & Profile details
-  document.getElementById('db-current-condition').textContent = profile.current_condition || 'Untrained Archer';
-  document.getElementById('db-target-aim').textContent = profile.target_aim || 'Mighty Maharathi';
+  document.getElementById('db-current-condition').textContent = profile.current_condition || 'Sluggish';
+  document.getElementById('db-target-aim').textContent = profile.target_aim || 'Mighty Strength';
   document.getElementById('db-tapasya-duration').textContent = `${profile.challenge_days} Days`;
   document.getElementById('db-cumulative-work').textContent = `${progress.cumulative_work.toFixed(0)}%`;
   
   // 2. Dynamic Progress Circular Wheel
   const pct = progress.progress_percentage || 0;
-  document.getElementById('db-percentage').textContent = `${pct}%`;
+  document.getElementById('db-percentage').textContent = `${pct.toFixed(1)}%`;
   
   const circle = document.getElementById('db-progress-circle');
   if (circle) {
-    const circumference = 753.6; // 2 * PI * 120
+    // Radius = 90, Circumference = 2 * PI * 90 = 565.48
+    const circumference = 565.48;
     const offset = circumference - (pct / 100) * circumference;
     circle.style.strokeDashoffset = offset;
   }
 
-  // 3. Warrior Rank
-  let rank = "Novice Cadet";
-  if (pct > 0 && pct < 15) rank = "Astra Seeker (Weapon Apprentice)";
-  else if (pct >= 15 && pct < 40) rank = "Gada Bearer (Royal Infantry)";
-  else if (pct >= 40 && pct < 70) rank = "Atirathi (Elite Archer)";
-  else if (pct >= 70 && pct < 95) rank = "Maharathi (Chariot Master)";
-  else if (pct >= 95) rank = "Atimaharathi (Divine Champion)";
+  // 3. Clear, simple Progress Rankings
+  let rank = "Level 1: Cadet";
+  if (pct > 0 && pct < 15) rank = "Level 1: Cadet";
+  else if (pct >= 15 && pct < 40) rank = "Level 2: Apprentice";
+  else if (pct >= 40 && pct < 70) rank = "Level 3: Pioneer";
+  else if (pct >= 70 && pct < 95) rank = "Level 4: Commander";
+  else if (pct >= 95) rank = "Level 5: Champion";
   
   document.getElementById('db-warrior-rank').textContent = rank;
 
@@ -58,17 +59,17 @@ function updateDashboardUI(data) {
   
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   days.forEach(day => {
-    const goal = weeklyGoals.find(g => g.day_of_week === day) || { focus_area: 'Rest' };
+    const goal = weeklyGoals.find(g => g.day_of_week === day) || { focus_area: 'Rest Day' };
     
     const dayBox = document.createElement('div');
-    dayBox.style.background = 'var(--bg-primary)';
-    dayBox.style.border = '1px solid rgba(212,175,55,0.15)';
+    dayBox.style.backgroundColor = 'var(--bg-primary)';
+    dayBox.style.border = '1px solid var(--border)';
     dayBox.style.padding = '0.5rem';
     dayBox.style.borderRadius = '4px';
     dayBox.style.textAlign = 'center';
     dayBox.innerHTML = `
-      <div style="font-family:'Cinzel',serif; font-weight:700; color:var(--saffron); font-size:0.75rem;">${day.substring(0,3)}</div>
-      <div style="color:var(--parchment); margin-top:0.2rem; font-size:0.75rem; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${goal.focus_area}">
+      <div style="font-weight:700; color:var(--primary); font-size:0.75rem;">${day.substring(0,3)}</div>
+      <div style="color:var(--text-white); margin-top:0.2rem; font-size:0.75rem; text-overflow:ellipsis; overflow:hidden; white-space:nowrap;" title="${goal.focus_area}">
         ${goal.focus_area}
       </div>
     `;
@@ -81,7 +82,7 @@ function updateDashboardUI(data) {
   if (!recentLogs || recentLogs.length === 0) {
     historyContainer.innerHTML = `
       <div class="empty-arena-msg" style="padding: 1.5rem;">
-        No battle footprints logged yet in the shared stone scrolls. Complete daily tasks!
+        No workout logs recorded in the shared SQL tables.
       </div>
     `;
     return;
@@ -89,7 +90,6 @@ function updateDashboardUI(data) {
 
   historyContainer.innerHTML = '';
   recentLogs.forEach(log => {
-    // Format date string beautifully
     const dateObj = new Date(log.date + 'T00:00:00');
     const formattedDate = dateObj.toLocaleDateString('en-US', {
       month: 'short',
@@ -98,10 +98,10 @@ function updateDashboardUI(data) {
     });
 
     const row = document.createElement('div');
-    row.className = 'history-log-row';
+    row.className = 'history-row';
     row.innerHTML = `
-      <span class="history-log-date">📜 Day of ${formattedDate}</span>
-      <span class="history-log-pct">Effort: ${log.work_percentage.toFixed(0)}%</span>
+      <span>📅 Date: ${formattedDate}</span>
+      <span style="color: var(--primary);">Effort: ${log.work_percentage.toFixed(0)}%</span>
     `;
     historyContainer.appendChild(row);
   });

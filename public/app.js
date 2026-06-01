@@ -1,11 +1,11 @@
-// --- Timeless Bhagavad Gita Quotes ---
-const GITA_QUOTES = [
-  { sanskrit: "योगः कर्मसु कौशलम्", translation: '"Yoga is skill and discipline in action. Keep training with full dedication, O Arjuna."' },
-  { sanskrit: "कर्मण्येवाधिकारस्ते मा फलेषु कदाचन", translation: '"You have a right to perform your prescribed duty, but you are not entitled to the fruits of action."' },
-  { sanskrit: "हतो वा प्राप्स्यसि स्वर्गं जित्वा वा भोक्ष्यसे महीम्", translation: '"Either you will be slain in battle and obtain heaven, or you will conquer and enjoy the earth. Therefore, stand up with determination!"' },
-  { sanskrit: "तस्मादसक्तः सततं कार्यं कर्म समाचर", translation: '"Without attachment, perform your duty constantly, for by performing action without attachment, one attains the Supreme."' },
-  { sanskrit: "मन एव मनुष्याणां कारणं बन्धमोक्षयोः", translation: '"For man, mind is the cause of both bondage and liberation. Master the mind, master your physical body."' },
-  { sanskrit: "क्लैब्यं मा स्म गमः पार्थ नैतत्त्वय्युपपद्यते", translation: '"Do not yield to unmanliness, O son of Pritha! It does not befit you. Shake off this trivial weakness of heart and arise!"' }
+// --- Stellar Cosmic Quotes Matrix ---
+const COSMIC_QUOTES = [
+  { sanskrit: "COSMIC GRAVITY", translation: '"We are made of stardust. Discipline is the gravity that binds our physical strength together."' },
+  { sanskrit: "STELLAR REACTOR", translation: '"Energy cannot be created or destroyed, only transformed. Transform your latent stardust into raw mechanical power."' },
+  { sanskrit: "ORBITAL VELOCITY", translation: '"Look up at the stars, not down at your feet. Map your progress, accelerate your momentum, and break orbit."' },
+  { sanskrit: "UNIVERSAL DHARMA", translation: '"The cosmos is within us. We are a way for the universe to know itself. Keep your stellar reactors running hot."' },
+  { sanskrit: "QUANTUM FOCUS", translation: '"Space-time rewards consistent action. A single day of training is another warp jump closer to your final evolutionary form."' },
+  { sanskrit: "SUPERNOVA WILL", translation: '"Arise! Shake off the gravitational drag of laziness. Ignite your core fusion and light up your own galaxy!"' }
 ];
 
 // --- Application State ---
@@ -13,49 +13,89 @@ let userProfile = null;
 let weeklyGoals = [];
 let dailyLog = { date: '', work_percentage: 0 };
 let dailyExercises = [];
+let activeTab = 'gateway'; // gateway, progress, dharma, astra
+let activeLayout = 'tabs'; // tabs, unified
+let activeAura = 'cyan';   // cyan, magenta, purple
 
 // --- Initialize App ---
 document.addEventListener('DOMContentLoaded', () => {
-  // Cycle a random quote on load
+  // Restore user preferences on load
+  restoreFlexibilityPreferences();
+  
+  // Cycle a space quote on start
   cycleQuote();
   
-  // Set default date to today in date picker
+  // Set default date to today in calendar picker
   const todayStr = new Date().toISOString().split('T')[0];
   document.getElementById('astra-log-date').value = todayStr;
   
-  // Load initial dataset
+  // Fetch SQLite dataset
   initData();
 });
 
 // Cycle through quotes
 function cycleQuote() {
-  const quote = GITA_QUOTES[Math.floor(Math.random() * GITA_QUOTES.length)];
+  const quote = COSMIC_QUOTES[Math.floor(Math.random() * COSMIC_QUOTES.length)];
   document.getElementById('gita-sanskrit').textContent = quote.sanskrit;
   document.getElementById('gita-translation').textContent = quote.translation;
 }
 
-// Switch between vantage points (tabs)
-function switchTab(tabId) {
-  // Quote cycling when shifting views
+// --- REDIRECTION & FLEXIBLE NAVIGATION ---
+
+// Unified handler for clicking tab buttons
+function handleNavigation(tabId) {
   cycleQuote();
 
-  document.querySelectorAll('.vantage-point').forEach(el => {
+  if (activeLayout === 'unified') {
+    // REDIRECTION: Smoothly scroll down the page to the selected module
+    const targetModule = document.getElementById(`module-${tabId}`);
+    if (targetModule) {
+      targetModule.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      
+      // Visual feedback: Flash the neon border glow of the target card!
+      const card = targetModule.querySelector('.royal-card');
+      if (card) {
+        card.style.boxShadow = '0 0 35px var(--primary-glow)';
+        setTimeout(() => {
+          card.style.boxShadow = '';
+        }, 1500);
+      }
+      showToast(`Redirecting scroll to ${tabId.toUpperCase()} panel.`);
+    }
+  } else {
+    // TABS MODE: Switch visible tab panel and scroll it into viewport center
+    switchTab(tabId);
+    
+    setTimeout(() => {
+      const targetModule = document.getElementById(`module-${tabId}`);
+      if (targetModule) {
+        targetModule.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, 100);
+  }
+}
+
+// Low-level Tab Switcher
+function switchTab(tabId) {
+  activeTab = tabId;
+
+  // Reset active classes
+  document.querySelectorAll('.dashboard-module').forEach(el => {
     el.classList.remove('active');
   });
   document.querySelectorAll('.nav-shield-btn').forEach(btn => {
     btn.classList.remove('active');
   });
 
-  const targetTab = document.getElementById(`vantage-${tabId}`);
-  if (targetTab) targetTab.classList.add('active');
+  // Activate target viewport module
+  const targetModule = document.getElementById(`module-${tabId}`);
+  if (targetModule) targetModule.classList.add('active');
 
-  // Activate matching button
-  const matchingBtn = Array.from(document.querySelectorAll('.nav-shield-btn')).find(btn => 
-    btn.getAttribute('onclick').includes(tabId)
-  );
+  // Activate matching navigation button
+  const matchingBtn = document.getElementById(`tab-btn-${tabId}`);
   if (matchingBtn) matchingBtn.classList.add('active');
 
-  // Trigger content-specific refreshes
+  // Specific panel lazy loading
   if (tabId === 'progress') {
     loadProgressWheel();
   } else if (tabId === 'dharma') {
@@ -65,7 +105,80 @@ function switchTab(tabId) {
   }
 }
 
-// Display Toast Notifications
+// --- FLEXIBILITY SETTING LAYER ---
+
+// 1. Dynamic Space Aura Switcher
+function switchAura(auraName) {
+  activeAura = auraName;
+  localStorage.setItem('cf_aura', auraName);
+  
+  // Apply class to body
+  document.body.className = document.body.className.replace(/\baura-\w+/g, '');
+  document.body.classList.add(`aura-${auraName}`);
+  
+  // Toggle active visual states on header aura buttons
+  document.querySelectorAll('.aura-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  const targetBtn = document.querySelector(`.aura-btn.${auraName}-aura`);
+  if (targetBtn) targetBtn.classList.add('active');
+  
+  cycleQuote();
+  showToast(`Stellar Core energy shifted to: ${auraName.toUpperCase()} Grid.`);
+}
+
+// 2. Dynamic Viewport Layout Switcher
+function switchLayout(layoutMode) {
+  activeLayout = layoutMode;
+  localStorage.setItem('cf_layout', layoutMode);
+  
+  // Remove layout classes
+  document.body.classList.remove('layout-tabs', 'layout-unified');
+  document.body.classList.add(`layout-${layoutMode}`);
+  
+  // Toggle active layout toggle buttons
+  document.querySelectorAll('.layout-btn').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  document.getElementById(`btn-layout-${layoutMode}`).classList.add('active');
+  
+  // Apply DOM adjustments
+  if (layoutMode === 'unified') {
+    // Show ALL modules simultaneously in the grid
+    document.querySelectorAll('.dashboard-module').forEach(el => {
+      el.classList.add('active');
+    });
+    // Force loaded refreshes on all
+    loadProgressWheel();
+    loadWeeklySplit();
+    loadAstraForDate();
+  } else {
+    // Restore tab-based focus
+    switchTab(activeTab);
+  }
+  
+  cycleQuote();
+  showToast(`Telemetry mode set to: ${layoutMode.toUpperCase()} Grid.`);
+}
+
+// Restore saved preferences
+function restoreFlexibilityPreferences() {
+  const savedAura = localStorage.getItem('cf_aura');
+  if (savedAura) {
+    switchAura(savedAura);
+  } else {
+    switchAura('cyan');
+  }
+
+  const savedLayout = localStorage.getItem('cf_layout');
+  if (savedLayout) {
+    switchLayout(savedLayout);
+  } else {
+    switchLayout('tabs');
+  }
+}
+
+// Display Alerts Toast
 function showToast(message) {
   const toast = document.getElementById('royal-toast-box');
   const toastMsg = document.getElementById('royal-toast-message');
@@ -74,21 +187,27 @@ function showToast(message) {
   
   setTimeout(() => {
     toast.classList.remove('show');
-  }, 3500);
+  }, 3000);
 }
 
-// Preset button handlers
+// Preset badge loader
 function setPreset(inputId, value) {
   document.getElementById(inputId).value = value;
-  showToast(`Stature preset loaded: "${value}"`);
+  showToast(`Parameters uploaded: "${value}"`);
 }
 
-// --- Data Fetching & Sync Layer ---
+// --- Data Fetching & SQLite Sync Layer ---
 
 async function initData() {
   await fetchProfile();
   await fetchWeeklyGoals();
-  await loadProgressWheel();
+  if (activeLayout === 'unified') {
+    loadWeeklySplit();
+    loadProgressWheel();
+    loadAstraForDate();
+  } else {
+    switchTab('gateway');
+  }
 }
 
 // Fetch Profile
@@ -102,9 +221,9 @@ async function fetchProfile() {
       document.getElementById('target_aim').value = userProfile.target_aim || '';
       document.getElementById('challenge_days').value = userProfile.challenge_days || 50;
       
-      // Update displays in Chariot view
-      document.getElementById('stats-current').textContent = userProfile.current_condition || 'Untrained Archer';
-      document.getElementById('stats-target').textContent = userProfile.target_aim || 'Mighty Maharathi';
+      // Update displays
+      document.getElementById('stats-current').textContent = userProfile.current_condition || 'Stardust';
+      document.getElementById('stats-target').textContent = userProfile.target_aim || 'Supernova Core';
       document.getElementById('stats-duration').textContent = `${userProfile.challenge_days} Days`;
     }
   } catch (err) {
@@ -128,12 +247,16 @@ async function saveProfile(event) {
     const data = await res.json();
     userProfile = data.profile;
     
-    showToast("Profile inscribed successfully on the royal stone pillars!");
-    // Auto redirect to Progress Tab
-    setTimeout(() => switchTab('progress'), 8000);
+    showToast("Stellar registers inscribed successfully!");
+    
+    if (activeLayout === 'tabs') {
+      setTimeout(() => handleNavigation('progress'), 600);
+    } else {
+      await loadProgressWheel();
+    }
   } catch (err) {
     console.error('Error saving profile:', err);
-    showToast("Error updating the registry.");
+    showToast("Error updating registry.");
   }
 }
 
@@ -147,7 +270,7 @@ async function fetchWeeklyGoals() {
   }
 }
 
-// Load Weekly split scroll interface
+// Load Weekly Split Grid
 function loadWeeklySplit() {
   const container = document.getElementById('weekly-days-list');
   container.innerHTML = '';
@@ -155,19 +278,17 @@ function loadWeeklySplit() {
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   
   days.forEach(day => {
-    const dayGoal = weeklyGoals.find(g => g.day_of_week === day) || { focus_area: 'Rest Day' };
+    const dayGoal = weeklyGoals.find(g => g.day_of_week === day) || { focus_area: 'System Recovery' };
     
     const card = document.createElement('div');
     card.className = 'day-parchment-card';
     card.innerHTML = `
-      <div class="day-parchment-name">
-        <span>🛡️ ${day}</span>
-      </div>
+      <div class="day-parchment-name">🛡️ ${day}</div>
       <input type="text" 
              class="day-parchment-input" 
              value="${dayGoal.focus_area}" 
              data-day="${day}" 
-             placeholder="Workout split (e.g. Back & Biceps)">
+             placeholder="Workout sector focus">
     `;
     container.appendChild(card);
   });
@@ -182,7 +303,7 @@ async function saveWeeklyGoals(event) {
 
   for (const input of inputs) {
     const day_of_week = input.getAttribute('data-day');
-    const focus_area = input.value || 'Rest Day';
+    const focus_area = input.value || 'System Recovery';
     
     try {
       await fetch('/api/weekly-goals', {
@@ -198,62 +319,47 @@ async function saveWeeklyGoals(event) {
 
   if (successCount > 0) {
     await fetchWeeklyGoals();
-    showToast("Weekly Battle Split sealed under divine decree!");
-    // Auto redirect to Today's Astra Tab
-    setTimeout(() => switchTab('astra'), 800);
+    showToast("Orbital splits sealed in mainframe!");
+    
+    if (activeLayout === 'tabs') {
+      setTimeout(() => handleNavigation('astra'), 600);
+    } else {
+      loadAstraForDate();
+    }
   }
 }
 
-// --- VANTAGE 2: Progress Calculations ---
+// Load Circular progress orbit wheel
 async function loadProgressWheel() {
   try {
     const res = await fetch('/api/progress-stats');
     const stats = await res.json();
 
-    // Inscribe stats
     const pct = stats.progress_percentage || 0;
     document.getElementById('wheel-percentage').textContent = `${pct}%`;
-    document.getElementById('stats-logged').textContent = `${stats.logged_days} Days`;
     document.getElementById('stats-cumulative').textContent = `${stats.cumulative_work.toFixed(0)}%`;
     
-    // Draw the SVG Chariot Wheel progress circle
-    // Radial radius r = 120, circumference = 753.6
+    // Animate circular SVG indicator ring
     const circle = document.getElementById('progress-circle-radial');
-    const circumference = 753.6;
+    const circumference = 753.6; // 2 * PI * 120
     const offset = circumference - (pct / 100) * circumference;
     circle.style.strokeDashoffset = offset;
 
-    // Calculate rank and update
-    let rank = "Novice Cadet";
-    let rankDesc = '"Every warrior starts as a simple cadet. Pick up the bow."';
-    
-    if (pct > 0 && pct < 15) {
-      rank = "Weapon Apprentice (Astra seeker)";
-      rankDesc = '"You have begun your tapasya. Dedication is your shield."';
-    } else if (pct >= 15 && pct < 40) {
-      rank = "Royal Infantry (Gada Bearer)";
-      rankDesc = '"Strength is gathering in your arms. The battlefield awaits."';
-    } else if (pct >= 40 && pct < 70) {
-      rank = "Elite Archer (Atirathi)";
-      rankDesc = '"Your focus is like Arjuna aiming at the bird\'s eye. Unwavering!"';
-    } else if (pct >= 70 && pct < 95) {
-      rank = "Mighty Charioteer (Maharathi)";
-      rankDesc = '"You command the battlefield. Only a step away from legend."';
-    } else if (pct >= 95) {
-      rank = "Divine Champion (Atimaharathi)";
-      rankDesc = '"You have conquered your limits. You are skill in action personified!"';
-    }
+    // Calculate Cosmic Rank
+    let rank = "Gravity Cadet";
+    if (pct > 0 && pct < 15) rank = "Stardust Apprentice";
+    else if (pct >= 15 && pct < 40) rank = "Astroid Pioneer";
+    else if (pct >= 40 && pct < 70) rank = "Nebula Commander";
+    else if (pct >= 70 && pct < 95) rank = "Solar Giant Master";
+    else if (pct >= 95) rank = "Supernova Champion";
 
-    document.getElementById('warrior-rank').innerHTML = `${rank}<div class="warrior-rank-title">${rankDesc}</div>`;
+    document.getElementById('warrior-rank').textContent = rank;
     
-    // Calculate dynamically descriptive advice from Krishna
-    let advice = "Arise, O Prince! A single day of disciplined work is a stone laid in the path of your monumental chariot. Check off your daily Astra to spin the wheel.";
+    // Dynamic telemetry advice
+    let advice = "Ignite training blocks to generate critical orbital trajectory.";
     if (pct > 0) {
-      const remainingProgress = (100 - pct).toFixed(1);
-      // Math: (Sum / Duration) = pct. If challenge duration = 50 days, and current sum = S.
-      //S needed for 100% = 5000. Current S = stats.cumulative_work.
       const workNeeded = (stats.total_days * 100) - stats.cumulative_work;
-      advice = `Formula: Sum of daily logs / ${stats.total_days} challenge days. You have logged ${stats.cumulative_work.toFixed(0)}% cumulative effort. You need ${workNeeded.toFixed(0)}% more cumulative work to reach 100% mastery! Remain steadfast.`;
+      advice = `Telemetry: Sum of daily sectors / ${stats.total_days} challenge days. You have logged ${stats.cumulative_work.toFixed(0)}% cumulative energy. You need ${workNeeded.toFixed(0)}% more cumulative load to reach 100% complete orbit!`;
     }
     document.getElementById('progress-advice-tip').textContent = advice;
 
@@ -262,20 +368,17 @@ async function loadProgressWheel() {
   }
 }
 
-// --- VANTAGE 4: Daily Exercise Tracking ---
-
-// Load Today's Focus and Exercise Lists
+// Load Date Focus & Exercises checklist
 async function loadAstraForDate() {
   const dateInput = document.getElementById('astra-log-date');
   const dateStr = dateInput.value;
   if (!dateStr) return;
 
-  // Determine focus area of week dynamically based on the weekday of the selected date
   const selectedDate = new Date(dateStr + 'T00:00:00');
   const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const dayName = weekdays[selectedDate.getDay()];
   
-  const weeklyFocus = weeklyGoals.find(g => g.day_of_week === dayName) || { focus_area: 'Rest Day' };
+  const weeklyFocus = weeklyGoals.find(g => g.day_of_week === dayName) || { focus_area: 'System Recovery' };
   document.getElementById('today-focus-value').textContent = `${dayName}: ${weeklyFocus.focus_area}`;
 
   try {
@@ -283,11 +386,10 @@ async function loadAstraForDate() {
     const logRes = await fetch(`/api/daily-log/${dateStr}`);
     dailyLog = await logRes.json();
     
-    // Update slider & slider text display
     document.getElementById('daily-progress-slider').value = dailyLog.work_percentage || 0;
     document.getElementById('daily-slider-display').textContent = `${(dailyLog.work_percentage || 0).toFixed(0)}%`;
 
-    // 2. Fetch specific exercises for that date
+    // 2. Fetch specific exercises
     const exRes = await fetch(`/api/exercises/${dateStr}`);
     dailyExercises = await exRes.json();
 
@@ -298,7 +400,7 @@ async function loadAstraForDate() {
   }
 }
 
-// Render Exercises Cards
+// Render Exercise Checklist Blocks
 function renderExercises() {
   const container = document.getElementById('exercises-list');
   container.innerHTML = '';
@@ -306,8 +408,7 @@ function renderExercises() {
   if (dailyExercises.length === 0) {
     container.innerHTML = `
       <div class="empty-arena-msg">
-        🛡️ No exercises summoned yet for this date. 
-        <br>Enter an exercise above to build your daily battle split!
+        🛰️ No active exercises synthesized for this solar date.
       </div>
     `;
     return;
@@ -318,7 +419,6 @@ function renderExercises() {
     card.className = `exercise-block-card ${ex.completed ? 'completed' : ''}`;
     card.innerHTML = `
       <div class="exercise-info-section">
-        <!-- Circular custom shield checkbox -->
         <div class="exercise-shield-checkbox ${ex.completed ? 'checked' : ''}" 
              onclick="toggleExerciseStatus(${ex.id}, ${ex.completed})">
           ✓
@@ -326,12 +426,11 @@ function renderExercises() {
         <div class="exercise-details-lbls">
           <span class="exercise-name-display">${ex.name}</span>
           <span class="exercise-specs-display">
-            Weapon load: <span>${ex.weight} ${ex.weight_unit}</span> | Reps: <span>${ex.sets} sets x ${ex.reps} reps</span>
+            Load: <span>${ex.weight} kg</span> | <span>${ex.sets} sets x ${ex.reps} reps</span>
           </span>
         </div>
       </div>
       <button class="btn-astra-delete" onclick="deleteExercise(${ex.id})" title="Delete Exercise">
-        <!-- Delete Trash Icon -->
         <svg viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
       </button>
     `;
@@ -348,7 +447,7 @@ async function toggleExerciseStatus(id, currentStatus) {
       body: JSON.stringify({ completed: !currentStatus })
     });
 
-    showToast("Exercise status updated.");
+    showToast("Sector energy modified.");
     await refreshDateAndRecalculate();
   } catch (err) {
     console.error('Error toggling status:', err);
@@ -357,14 +456,14 @@ async function toggleExerciseStatus(id, currentStatus) {
 
 // Delete exercise
 async function deleteExercise(id) {
-  if (!confirm("Are you sure you want to dismiss this training Astra block?")) return;
+  if (!confirm("Dismiss this exercise block?")) return;
 
   try {
     await fetch(`/api/exercises/${id}`, {
       method: 'DELETE'
     });
 
-    showToast("Exercise dismissed from block.");
+    showToast("Block dismissed.");
     await refreshDateAndRecalculate();
   } catch (err) {
     console.error('Error deleting exercise:', err);
@@ -389,15 +488,13 @@ async function addNewExercise(event) {
         date: dateStr,
         name,
         weight,
-        weight_unit: 'kg', // Defaulting to kg
+        weight_unit: 'kg',
         sets,
         reps
       })
     });
 
-    showToast(`Summoned training Astra: ${name}!`);
-    
-    // Reset form inputs
+    showToast(`Synthesized: ${name}!`);
     document.getElementById('ex-name').value = '';
     document.getElementById('ex-weight').value = '';
     
@@ -407,30 +504,29 @@ async function addNewExercise(event) {
   }
 }
 
-// Refresh daily listing and automatically calculate/sync completion
+// Sync completed stats
 async function refreshDateAndRecalculate() {
   const dateStr = document.getElementById('astra-log-date').value;
   
-  // Reload daily exercise list from SQLite
   const exRes = await fetch(`/api/exercises/${dateStr}`);
   dailyExercises = await exRes.json();
   
   renderExercises();
 
-  // Auto-calculate daily percentage: Completed / Total exercises
+  // Auto-calculate completion
   if (dailyExercises.length > 0) {
     const completedCount = dailyExercises.filter(ex => ex.completed).length;
     const computedPercentage = Math.round((completedCount / dailyExercises.length) * 100);
-    
-    // Save computed percentage to DB
     await syncDailyPercentage(dateStr, computedPercentage);
   } else {
-    // If no exercises left, set completion back to 0
     await syncDailyPercentage(dateStr, 0);
   }
+
+  // Live reload global progress wheel automatically!
+  await loadProgressWheel();
 }
 
-// Update log via API
+// Post daily percentage to backend SQLite
 async function syncDailyPercentage(date, percentage) {
   try {
     await fetch('/api/daily-log', {
@@ -439,7 +535,6 @@ async function syncDailyPercentage(date, percentage) {
       body: JSON.stringify({ date, work_percentage: percentage })
     });
 
-    // Update UI slider
     document.getElementById('daily-progress-slider').value = percentage;
     document.getElementById('daily-slider-display').textContent = `${percentage}%`;
   } catch (err) {
@@ -447,11 +542,10 @@ async function syncDailyPercentage(date, percentage) {
   }
 }
 
-// Update log manually via slider override
+// Post slider overrides directly
 async function updateDailyProgressFromSlider(value) {
   const dateStr = document.getElementById('astra-log-date').value;
   document.getElementById('daily-slider-display').textContent = `${value}%`;
-  
-  // Throttle/Sync directly with DB
   await syncDailyPercentage(dateStr, value);
+  await loadProgressWheel(); // Instantly update progress wheel!
 }

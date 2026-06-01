@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chandradip Fitness - Progress Tracker</title>
+  <meta name="description" content="Minimalist progress circular tracker.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Minimalist Header -->
+  <header>
+    <h1 class="app-title">Chandradip Fitness</h1>
+    <p class="app-subtitle">2. Everyday Progress Tracker</p>
+  </header>
+
+  <!-- Main Area -->
+  <main>
+    <div class="card card-progress">
+      <h2 class="card-title">Stellar Orbit Progress</h2>
+      <p class="card-description">
+        Your cumulative progress is calculated dynamically as the sum of all your daily logged workout efforts divided by the total challenge days.
+      </p>
+
+      <div class="progress-layout">
+        <!-- SVG Clean Circular Progress -->
+        <div class="progress-circle-container">
+          <svg width="200" height="200" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" class="circle-bg" />
+            <circle id="progress-indicator" cx="100" cy="100" r="90" class="circle-progress" />
+          </svg>
+          <div class="progress-value-box">
+            <div id="progress-display" class="progress-pct">0%</div>
+            <div class="progress-lbl">Journey Done</div>
+          </div>
+        </div>
+
+        <!-- Summary Stats list -->
+        <div class="summary-stats-box">
+          <div class="stat-row">
+            <span class="stat-lbl">Body Condition Now:</span>
+            <span id="stat-current" class="stat-val">Loading...</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-lbl">Aimed Physique Target:</span>
+            <span id="stat-target" class="stat-val">Loading...</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-lbl">Tapasya Duration:</span>
+            <span id="stat-duration" class="stat-val">50 Days</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-lbl">Total Days Logged:</span>
+            <span id="stat-logged" class="stat-val">0 Days</span>
+          </div>
+          <div class="stat-row">
+            <span class="stat-lbl">Cumulative Logged effort:</span>
+            <span id="stat-cumulative" class="stat-val" style="color: var(--primary);">0%</span>
+          </div>
+        </div>
+
+        <div style="width: 100%; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
+          <a href="weekly.html" class="btn-primary">Set Up Weekly Workout Split &rarr;</a>
+          <a href="index.html" class="btn-secondary">&larr; Edit Profile Registry</a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Simple Footer -->
+  <footer>
+    Chandradip Fitness © 2026. Minimalist SQLite Console.
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', loadProgressStats);
+
+    async function loadProgressStats() {
+      try {
+        // Fetch Profile details
+        const profRes = await fetch('/api/profile');
+        const profile = await profRes.json();
+        if (profile) {
+          document.getElementById('stat-current').textContent = profile.current_condition || 'Stardust';
+          document.getElementById('stat-target').textContent = profile.target_aim || 'Supernova Core';
+          document.getElementById('stat-duration').textContent = `${profile.challenge_days} Days`;
+        }
+
+        // Fetch dynamic calculations
+        const statsRes = await fetch('/api/progress-stats');
+        const stats = await statsRes.json();
+        if (stats) {
+          const pct = stats.progress_percentage || 0;
+          document.getElementById('progress-display').textContent = `${pct.toFixed(1)}%`;
+          document.getElementById('stat-logged').textContent = `${stats.logged_days} Days`;
+          document.getElementById('stat-cumulative').textContent = `${stats.cumulative_work.toFixed(0)}%`;
+
+          // Animate Circle
+          // Radius = 90, Circumference = 2 * PI * 90 = 565.48
+          const circle = document.getElementById('progress-indicator');
+          const circumference = 565.48;
+          const offset = circumference - (pct / 100) * circumference;
+          circle.style.strokeDashoffset = offset;
+        }
+      } catch (err) {
+        console.error('Error fetching progress calculations:', err);
+      }
+    }
+  </script>
+</body>
+</html>
