@@ -12,9 +12,11 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var webView: WebView
 
-    // IP 10.0.2.2 is the special host loopback address in Android Emulators
-    // representing the localhost of the running machine (your computer).
+    // Swap these lines when deploying live to Render!
+    // 1. Local emulator testing:
     private val serverUrl = "http://10.0.2.2:8000"
+    // 2. Production live URL (uncomment and replace with your actual Render service URL once live):
+    // private val serverUrl = "https://cds-fitness.onrender.com"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                 request: WebResourceRequest?,
                 error: WebResourceError?
             ): Boolean {
-                // If it fails to load the local backend server, render a beautiful Mahabharata error card
+                // If it fails to load the local backend server, render a beautiful Sadhana error card
                 if (request?.isForMainFrame == true) {
                     val errorHtml = """
                         <!DOCTYPE html>
@@ -59,12 +61,15 @@ class MainActivity : AppCompatActivity() {
                         <head>
                             <meta charset="utf-8">
                             <meta name="viewport" content="width=device-width, initial-scale=1">
-                            <title>Kurukshetra Battle Offline</title>
+                            <title>CDS Fitness — Offline</title>
+                            <link rel="preconnect" href="https://fonts.googleapis.com" />
+                            <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+                            <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
                             <style>
                                 body {
-                                    background-color: #080808;
-                                    color: #FFFFFF;
-                                    font-family: 'Cinzel', serif, sans-serif;
+                                    background-color: #090606;
+                                    color: #F3F4F6;
+                                    font-family: 'Outfit', sans-serif;
                                     display: flex;
                                     flex-direction: column;
                                     align-items: center;
@@ -75,52 +80,60 @@ class MainActivity : AppCompatActivity() {
                                     padding: 20px;
                                 }
                                 .card {
-                                    background-color: #141414;
-                                    border: 2px solid #FFD700;
-                                    border-radius: 12px;
+                                    background-color: #151110;
+                                    border: 1px solid rgba(255, 255, 255, 0.05);
+                                    border-top: 3px solid #f97316;
+                                    border-radius: 16px;
                                     padding: 30px;
                                     max-width: 450px;
-                                    box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+                                    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
                                 }
                                 h1 {
-                                    color: #FFD700;
+                                    font-family: 'Marcellus', serif;
+                                    color: #FFFFFF;
                                     font-size: 24px;
+                                    margin-top: 0;
                                     margin-bottom: 10px;
+                                    text-shadow: 0 0 10px rgba(249, 115, 22, 0.25);
+                                    text-transform: uppercase;
                                 }
                                 h2 {
-                                    color: #FF7600;
-                                    font-size: 16px;
+                                    color: #f97316;
+                                    font-size: 14px;
                                     margin-bottom: 20px;
+                                    text-transform: uppercase;
+                                    letter-spacing: 1px;
                                 }
                                 p {
                                     font-size: 14px;
-                                    color: #A5A5A5;
+                                    color: #9CA3AF;
                                     line-height: 1.6;
                                 }
                                 .btn {
-                                    background-color: #E53935;
-                                    border: 1px solid #FFD700;
+                                    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+                                    border: 1px solid #ea580c;
                                     color: #FFFFFF;
-                                    padding: 12px 20px;
-                                    border-radius: 6px;
+                                    padding: 12px 24px;
+                                    border-radius: 8px;
                                     text-decoration: none;
                                     display: inline-block;
                                     margin-top: 20px;
-                                    font-weight: bold;
+                                    font-weight: 600;
                                     cursor: pointer;
+                                    box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
                                 }
                             </style>
                         </head>
                         <body>
                             <div class="card">
-                                <h1>🔱 Kurukshetra Gate Closed 🔱</h1>
-                                <h2>Host Server Offline</h2>
+                                <h1>🔱 Sadhana Mainframe Offline 🔱</h1>
+                                <h2>Connection Timeout</h2>
                                 <p>
-                                    The Android App could not connect to the fitness backend. 
+                                    The mobile app could not connect to your fitness backend. 
                                     Please ensure your Express server is running on your host computer:
                                 </p>
-                                <code style="background-color:#1f1f1f; padding: 5px 10px; border-radius: 4px; color:#FFD700; display:block; margin: 10px 0;">node server.js</code>
-                                <p>Then tap below to re-enter the battle arena.</p>
+                                <code style="background-color:#0e0a0a; padding: 8px 12px; border-radius: 6px; color:#f97316; display:block; margin: 10px 0; border: 1px solid rgba(255,255,255,0.05); font-family: monospace;">node server.js</code>
+                                <p>Then tap below to reconnect your discipline logs.</p>
                                 <div class="btn" onclick="location.reload()">Retry Connection</div>
                             </div>
                         </body>
