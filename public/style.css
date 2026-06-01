@@ -841,3 +841,100 @@ footer {
   font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
+
+/* Premium Glassmorphic Bottom Navigation Dock */
+.bottom-nav-dock {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(21, 17, 16, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 9999px;
+  padding: 0.6rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  box-shadow: 
+    0 20px 40px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(249, 115, 22, 0.05);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  z-index: 1000;
+  width: 90%;
+  max-width: 460px;
+  justify-content: space-around;
+  transition: var(--transition);
+}
+
+.bottom-nav-dock:hover {
+  border-color: rgba(249, 115, 22, 0.25);
+  box-shadow: 
+    0 25px 45px rgba(0, 0, 0, 0.7),
+    0 0 25px rgba(249, 115, 22, 0.1);
+}
+
+.bottom-nav-item {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+  padding: 0.4rem;
+  border-radius: 12px;
+}
+
+.bottom-nav-item svg {
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  transition: var(--transition);
+}
+
+.bottom-nav-item:hover {
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+.bottom-nav-item.active {
+  color: var(--primary);
+}
+
+.bottom-nav-item.active svg {
+  filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.6));
+}
+
+/* Tooltip on Hover */
+.bottom-nav-item .nav-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translate(-50%, -8px) scale(0.85);
+  background-color: #120e0d;
+  color: #ffffff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.bottom-nav-item:hover .nav-tooltip {
+  opacity: 1;
+  transform: translate(-50%, -8px) scale(1);
+}
+
+/* Spacer at bottom of body so content/footer isn't obscured by dock */
+body {
+  padding-bottom: 7rem;
+}
