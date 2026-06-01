@@ -1,11 +1,12 @@
-// --- Stellar Cosmic Quotes Matrix ---
+// --- Spiritual Indian Wisdom Quotes Matrix ---
 const COSMIC_QUOTES = [
-  { sanskrit: "COSMIC GRAVITY", translation: '"We are made of stardust. Discipline is the gravity that binds our physical strength together."' },
-  { sanskrit: "STELLAR REACTOR", translation: '"Energy cannot be created or destroyed, only transformed. Transform your latent stardust into raw mechanical power."' },
-  { sanskrit: "ORBITAL VELOCITY", translation: '"Look up at the stars, not down at your feet. Map your progress, accelerate your momentum, and break orbit."' },
-  { sanskrit: "UNIVERSAL DHARMA", translation: '"The cosmos is within us. We are a way for the universe to know itself. Keep your stellar reactors running hot."' },
-  { sanskrit: "QUANTUM FOCUS", translation: '"Space-time rewards consistent action. A single day of training is another warp jump closer to your final evolutionary form."' },
-  { sanskrit: "SUPERNOVA WILL", translation: '"Arise! Shake off the gravitational drag of laziness. Ignite your core fusion and light up your own galaxy!"' }
+  { sanskrit: "STRENGTH IS LIFE", translation: '"Strength is life, weakness is death. All power is within you; you can do anything and everything." — Swami Vivekananda' },
+  { sanskrit: "POWER OF THOUGHT", translation: '"We are what our thoughts have made us; so take care about what you think. Words are secondary. Thoughts live; they travel far." — Swami Vivekananda' },
+  { sanskrit: "CONQUER THYSELF", translation: '"It is better to conquer yourself than to win a thousand battles. Then the victory is yours. It cannot be taken from you." — Gautama Buddha' },
+  { sanskrit: "STEADY WISDOM", translation: '"He who holds the senses under control is indeed a person of steady wisdom. Control your mind or it will control you." — Upanishads & Chanakya' },
+  { sanskrit: "DUTY & ACTION", translation: '"Perform your obligatory duty with absolute focus. Dedication to work without craving the fruits is the path of self-mastery." — Bhagavad Gita' },
+  { sanskrit: "SILENT DISCIPLINE", translation: '"Purity, patience, and perseverance are the three essentials to success. Consistency is the fire that tempers discipline into character." — Swami Vivekananda' },
+  { sanskrit: "KINDLE THE LIGHT", translation: '"The sun glows not because of others, but because of its own fire. Kindle your inner light and keep your core fusion burning hot." — Rig Veda' }
 ];
 
 // --- Application State ---
@@ -345,13 +346,13 @@ async function loadProgressWheel() {
     const offset = circumference - (pct / 100) * circumference;
     circle.style.strokeDashoffset = offset;
 
-    // Calculate Cosmic Rank
-    let rank = "Gravity Cadet";
-    if (pct > 0 && pct < 15) rank = "Stardust Apprentice";
-    else if (pct >= 15 && pct < 40) rank = "Astroid Pioneer";
-    else if (pct >= 40 && pct < 70) rank = "Nebula Commander";
-    else if (pct >= 70 && pct < 95) rank = "Solar Giant Master";
-    else if (pct >= 95) rank = "Supernova Champion";
+    // Calculate Self-Discipline Ranks
+    let rank = "Sadhana Beginner";
+    if (pct > 0 && pct < 15) rank = "Discipline Novice";
+    else if (pct >= 15 && pct < 40) rank = "Focused Seeker";
+    else if (pct >= 40 && pct < 70) rank = "Steady Practitioner";
+    else if (pct >= 70 && pct < 95) rank = "Self-Mastery Yogi";
+    else if (pct >= 95) rank = "Sadhana Acharya";
 
     document.getElementById('warrior-rank').textContent = rank;
     

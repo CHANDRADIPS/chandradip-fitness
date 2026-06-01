@@ -1,24 +1,27 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  /* Minimalist slate & gold palette */
-  --bg-primary: #020205;       /* Deep Cosmic space void */
-  --bg-card: rgba(24, 24, 27, 0.85); /* Glassmorphic card back */
-  --bg-input: #09090b;
+  /* Spiritual Vedic-Regal Theme Palette */
+  --bg-primary: #090606;           /* Sacred clay/carbon black background */
+  --bg-card: #151110a6;            /* Premium dark clay glass card */
+  --bg-input: #0e0a0a;             /* Subtle dark inset input */
   
-  --primary: #d4af37;          /* Classic Elegant Gold */
-  --primary-glow: rgba(212, 175, 55, 0.15);
+  --primary: #f97316;              /* Sunset Saffron highlight */
+  --primary-dark: #ea580c;         /* Deep saffron orange gradient boundary */
+  --primary-light: #ffedd5;        /* Soft saffron-cream overlay */
+  --primary-glow: rgba(249, 115, 22, 0.25);
   
-  --border: #27272a;           /* Thin Slate outline */
-  --border-focus: #52525b;
+  --border: rgba(255, 255, 255, 0.05); /* Extra-thin translucent border outline */
+  --border-focus: #f97316;
   
-  --text-primary: #ffffff;     /* Crisp white */
-  --text-muted: #a1a1aa;       /* Slate grey */
-  --danger: #ef4444;           /* Soft red for dismissals */
-  --success: #10b981;          /* Emerald green for completions */
+  --text-primary: #f3f4f6;         /* Bright gray-white readable copy */
+  --text-muted: #9ca3af;           /* Slate neutral grey */
+  --danger: #ef4444;               /* Warning crimson red */
+  --success: #f97316;              /* Saffron checklist check indicator */
   
-  --font-family: 'Inter', -apple-system, sans-serif;
-  --transition: all 0.25s ease;
+  --font-serif: 'Marcellus', Georgia, serif;
+  --font-sans: 'Outfit', -apple-system, sans-serif;
+  --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -28,167 +31,126 @@
 }
 
 body {
-  font-family: var(--font-family);
-  /* Baking the spectacular high-definition galaxy backdrop with a dark stardust mask */
+  font-family: var(--font-sans);
   background-color: var(--bg-primary);
-  background-image: 
-    linear-gradient(rgba(2, 2, 5, 0.78), rgba(2, 2, 5, 0.88)),
-    url('assets/galaxy.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   color: var(--text-primary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
 }
 
-/* Header styling (scrolling naturally, not sticky) */
+/* Elegant Spiritual Ambient Backglows */
+body::before {
+  content: '';
+  position: absolute;
+  top: -10%;
+  left: 30%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.05) 0%, rgba(9, 6, 6, 0) 70%);
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(80px);
+}
+
+body::after {
+  content: '';
+  position: absolute;
+  bottom: 10%;
+  right: 20%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(234, 88, 12, 0.03) 0%, rgba(9, 6, 6, 0) 70%);
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(80px);
+}
+
+/* Classical Spiritual Header Layout */
 header {
-  padding: 2.5rem 1.5rem;
+  padding: 3rem 1.5rem 2rem 1.5rem;
   max-width: 800px;
   width: 90%;
   margin: 0 auto;
   text-align: center;
-  border-bottom: 1px solid var(--border);
+  position: relative;
 }
 
 .app-title {
-  font-size: 2rem;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  margin-bottom: 0.25rem;
-  /* Soft gold celestial text glow */
-  text-shadow: 0 0 10px rgba(212, 175, 55, 0.2);
-}
-
-.app-subtitle {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  font-weight: 500;
-  letter-spacing: 0.5px;
+  font-family: var(--font-serif);
+  font-size: 2.5rem;
+  font-weight: 400;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.4rem;
+  color: #ffffff;
+  text-shadow: 0 0 15px rgba(249, 115, 22, 0.25);
   text-transform: uppercase;
 }
 
-/* Main Content Wrapper */
+.app-subtitle {
+  font-family: var(--font-sans);
+  font-size: 0.85rem;
+  color: var(--primary);
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 8px rgba(249, 115, 22, 0.15);
+}
+
+/* Main Core Layout */
 main {
   flex: 1;
   max-width: 800px;
   width: 90%;
-  margin: 2rem auto 4rem auto;
+  margin: 1rem auto 4rem auto;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  z-index: 1;
 }
 
-/* Minimalist Clean Cards with Galaxy backglows */
+/* Sadhana App Glassmorphic Cards */
 .card {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 2.5rem;
   box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 15px rgba(212, 175, 55, 0.02);
-  backdrop-filter: blur(12px);
+    0 25px 50px -12px rgba(0, 0, 0, 0.4),
+    0 0 25px rgba(249, 115, 22, 0.02);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   transition: var(--transition);
   position: relative;
+  overflow: hidden;
 }
 
 .card:hover {
-  border-color: rgba(255,255,255,0.1);
+  border-color: rgba(249, 115, 22, 0.2);
   box-shadow: 
-    0 12px 35px rgba(0,0,0,0.7), 
-    0 0 20px rgba(212, 175, 55, 0.04);
+    0 30px 60px -10px rgba(0, 0, 0, 0.5),
+    0 0 35px rgba(249, 115, 22, 0.05);
+  transform: translateY(-2px);
 }
 
-/* ==========================================================================
-   THEMED CARD ACCENTS (Dynamic Page Visual Themes)
-   ========================================================================== */
-
-/* 1. Define Your Stature Theme (index.html) */
-.card-stature {
-  border-top: 3px solid var(--primary);
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 25px rgba(212, 175, 55, 0.04);
-}
-.card-stature::before {
-  content: '🧬'; /* DNA Stature Icon */
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 1.4rem;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 5px var(--primary));
-}
-
-/* 2. Stellar Orbit Progress Theme (progress.html) */
-.card-progress {
-  border-top: 3px solid #00f0ff; /* Electric Cosmic Cyan */
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 25px rgba(0, 240, 255, 0.05);
-}
-.card-progress::before {
-  content: '🪐'; /* Planetary Orbit Icon */
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 1.4rem;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 5px #00f0ff);
-}
-
-/* 3. Weekly splits Calendar Theme (weekly.html) */
-.card-weekly {
-  border-top: 3px solid #ff7600; /* Volcanic Saffron Orange */
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 25px rgba(255, 118, 0, 0.05);
-}
-.card-weekly::before {
-  content: '📅'; /* Weekly Calendar Icon */
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 1.4rem;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 5px #ff7600);
-}
-
-/* 4. Today's Exercises Reactor Theme (today.html) */
-.card-today {
-  border-top: 3px solid #10b981; /* Emerald success Green */
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 25px rgba(16, 185, 129, 0.05);
-}
-.card-today::before {
-  content: '⚡'; /* Electric Energy Icon */
-  position: absolute;
-  top: 15px;
-  right: 20px;
-  font-size: 1.4rem;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 5px #10b981);
-}
-
-.card-today-action {
-  border-top: 3px solid var(--primary);
-  box-shadow: 
-    0 10px 30px rgba(0,0,0,0.6), 
-    0 0 25px rgba(212, 175, 55, 0.04);
-}
+/* Vedic Card Accent Ornaments */
+.card-stature { border-top: 3px solid var(--primary); }
+.card-progress { border-top: 3px solid var(--primary); }
+.card-weekly { border-top: 3px solid var(--primary); }
+.card-today { border-top: 3px solid var(--primary); }
+.card-today-action { border-top: 3px solid var(--primary); }
 
 .card-title {
-  font-size: 1.4rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.3px;
+  font-family: var(--font-serif);
+  font-size: 1.6rem;
+  font-weight: 400;
+  margin-bottom: 0.6rem;
+  letter-spacing: 0.5px;
+  color: #ffffff;
 }
 
 .card-description {
@@ -198,29 +160,30 @@ main {
   line-height: 1.6;
 }
 
-/* Forms & Inputs */
+/* Premium Typography Elements for Forms */
 .form-group {
   margin-bottom: 1.5rem;
+  text-align: left;
 }
 
 .form-label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  color: var(--text-muted);
+  color: var(--primary);
   text-transform: uppercase;
   margin-bottom: 0.5rem;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
 }
 
 .form-input {
   width: 100%;
   background-color: var(--bg-input);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   color: var(--text-primary);
-  padding: 0.8rem 1rem;
-  font-family: var(--font-family);
+  padding: 0.9rem 1.2rem;
+  font-family: var(--font-sans);
   font-size: 0.95rem;
   transition: var(--transition);
 }
@@ -228,65 +191,82 @@ main {
 .form-input:focus {
   outline: none;
   border-color: var(--border-focus);
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.15);
+  background-color: #120e0d;
 }
 
+/* Input Calendar Styling */
+input[type="date"].form-input {
+  cursor: pointer;
+  position: relative;
+}
+
+/* Form Presets / Chip Elements */
 .preset-container {
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
   display: flex;
-  gap: 0.4rem;
+  gap: 0.5rem;
   flex-wrap: wrap;
 }
 
 .preset-chip {
-  background-color: var(--bg-primary);
+  background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border);
   color: var(--text-muted);
   font-size: 0.75rem;
   font-weight: 500;
-  padding: 0.25rem 0.6rem;
-  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
   cursor: pointer;
   transition: var(--transition);
 }
 
 .preset-chip:hover {
-  border-color: var(--border-focus);
-  color: var(--text-primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  background-color: rgba(249, 115, 22, 0.08);
 }
 
-/* Minimalist Clean Buttons */
+/* Regal Saffron Buttons */
 .btn-primary {
   width: 100%;
-  background-color: var(--text-primary);
-  border: 1px solid var(--text-primary);
-  color: var(--bg-primary);
-  font-family: var(--font-family);
-  font-weight: 700;
-  font-size: 0.95rem;
-  padding: 0.85rem;
-  border-radius: 6px;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: 1px solid var(--primary-dark);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.9rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
   display: inline-block;
   text-decoration: none;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.2);
 }
 
 .btn-primary:hover {
-  background-color: transparent;
-  color: var(--text-primary);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(249, 115, 22, 0.35);
+  filter: brightness(1.1);
+}
+
+.btn-primary:active {
+  transform: scale(0.98);
 }
 
 .btn-secondary {
   width: 100%;
   background-color: transparent;
   border: 1px solid var(--border);
-  color: var(--text-primary);
-  font-family: var(--font-family);
-  font-weight: 600;
+  color: var(--text-muted);
+  font-family: var(--font-sans);
+  font-weight: 500;
   font-size: 0.95rem;
-  padding: 0.85rem;
-  border-radius: 6px;
+  padding: 0.9rem;
+  border-radius: 8px;
   cursor: pointer;
   transition: var(--transition);
   text-align: center;
@@ -296,8 +276,13 @@ main {
 }
 
 .btn-secondary:hover {
-  border-color: var(--border-focus);
-  background-color: var(--bg-primary);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 /* ==========================================================================
@@ -307,7 +292,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .progress-circle-container {
@@ -318,21 +303,21 @@ main {
 
 .circle-bg {
   fill: none;
-  stroke: var(--bg-primary);
-  stroke-width: 12;
+  stroke: rgba(255, 255, 255, 0.03);
+  stroke-width: 10;
 }
 
 .circle-progress {
   fill: none;
-  stroke: #00f0ff; /* Glowing cyan progression color */
-  stroke-width: 12;
+  stroke: var(--primary);
+  stroke-width: 10;
   stroke-linecap: round;
   stroke-dasharray: 565.48; /* 2 * PI * r (r = 90) */
   stroke-dashoffset: 565.48;
   transform: rotate(-90deg);
   transform-origin: 50% 50%;
-  transition: stroke-dashoffset 0.8s ease;
-  filter: drop-shadow(0 0 8px rgba(0, 240, 255, 0.4));
+  transition: stroke-dashoffset 1s cubic-bezier(0.16, 1, 0.3, 1);
+  filter: drop-shadow(0 0 10px rgba(249, 115, 22, 0.5));
 }
 
 .progress-value-box {
@@ -344,17 +329,20 @@ main {
 }
 
 .progress-pct {
-  font-size: 2.2rem;
-  font-weight: 800;
-  color: var(--text-primary);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  letter-spacing: -0.5px;
 }
 
 .progress-lbl {
   font-size: 0.75rem;
-  color: var(--text-muted);
+  color: var(--primary);
   font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 1px;
+  margin-top: -0.2rem;
 }
 
 .summary-stats-box {
@@ -366,8 +354,13 @@ main {
 .stat-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.6rem 0;
+  padding: 0.75rem 0;
   font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+.stat-row:last-child {
+  border-bottom: none;
 }
 
 .stat-lbl {
@@ -375,11 +368,30 @@ main {
 }
 
 .stat-val {
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.stat-val.highlight {
+  color: var(--primary);
   font-weight: 600;
 }
 
+/* Progress Tip / Coach Advice style */
+#progress-advice-tip {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  text-align: center;
+  background-color: rgba(249, 115, 22, 0.03);
+  border: 1px dashed rgba(249, 115, 22, 0.15);
+  border-radius: 8px;
+  padding: 0.8rem 1.2rem;
+  width: 100%;
+}
+
 /* ==========================================================================
-   WEEKLY GOALS PAGE SPECIFICS
+   WEEKLY PLAN PAGE SPECIFICS
    ========================================================================== */
 .weekly-days-grid {
   display: grid;
@@ -389,25 +401,27 @@ main {
 }
 
 .day-card {
-  background-color: var(--bg-primary);
+  background-color: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 1.2rem;
   transition: var(--transition);
 }
 
 .day-card:hover {
-  border-color: #ff7600;
-  box-shadow: 0 0 10px rgba(255, 118, 0, 0.15);
+  border-color: var(--primary);
+  background-color: rgba(249, 115, 22, 0.02);
+  transform: translateY(-1px);
 }
 
 .day-name {
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #ff7600;
-  margin-bottom: 0.5rem;
+  font-family: var(--font-serif);
+  font-size: 1.05rem;
+  color: var(--primary);
+  margin-bottom: 0.6rem;
   border-bottom: 1px solid var(--border);
-  padding-bottom: 0.3rem;
+  padding-bottom: 0.4rem;
+  letter-spacing: 0.5px;
 }
 
 /* ==========================================================================
@@ -415,7 +429,7 @@ main {
    ========================================================================== */
 .today-layout {
   display: grid;
-  grid-template-columns: 1fr 1.5fr;
+  grid-template-columns: 1fr 1.4fr;
   gap: 2rem;
 }
 
@@ -426,21 +440,16 @@ main {
 }
 
 .picker-box {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 1.2rem;
-  backdrop-filter: blur(12px);
+  gap: 1.5rem;
   position: relative;
 }
 
 .today-focus-card {
-  background-color: var(--bg-primary);
+  background-color: rgba(255, 255, 255, 0.02);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 10px;
   padding: 1.2rem;
   text-align: center;
 }
@@ -450,32 +459,36 @@ main {
   font-weight: 600;
   color: var(--text-muted);
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .focus-name {
-  font-size: 1.2rem;
-  font-weight: 700;
-  color: #10b981;
-  margin-top: 0.25rem;
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-top: 0.4rem;
 }
 
 .slider-box {
-  background-color: var(--bg-primary);
+  background-color: rgba(255, 255, 255, 0.015);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 1rem;
+  border-radius: 10px;
+  padding: 1.2rem;
   text-align: center;
 }
 
 .slider-input {
   width: 100%;
-  margin-top: 0.5rem;
+  margin-top: 0.8rem;
   background-color: var(--bg-input);
   outline: none;
   cursor: pointer;
+  accent-color: var(--primary);
+  height: 5px;
+  border-radius: 4px;
 }
 
-/* Exercise items styling */
+/* Exercise listings */
 .exercise-list-box {
   display: flex;
   flex-direction: column;
@@ -485,18 +498,19 @@ main {
 .add-exercise-form {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-radius: 16px;
   padding: 1.5rem;
-  backdrop-filter: blur(12px);
-  position: relative;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(24px);
 }
 
 .add-exercise-title {
-  font-size: 1rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  margin-bottom: 1.2rem;
   border-bottom: 1px solid var(--border);
   padding-bottom: 0.5rem;
+  color: #ffffff;
 }
 
 .add-grid {
@@ -505,27 +519,28 @@ main {
   gap: 0.6rem;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 580px) {
   .add-grid {
     grid-template-columns: 1fr;
   }
 }
 
 .btn-add {
-  background-color: var(--text-primary);
-  border: 1px solid var(--text-primary);
-  color: var(--bg-primary);
-  font-family: var(--font-family);
-  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+  border: 1px solid var(--primary-dark);
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-weight: 600;
   font-size: 0.85rem;
   cursor: pointer;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: var(--transition);
+  padding: 0.6rem 1rem;
 }
 
 .btn-add:hover {
-  background-color: transparent;
-  color: var(--text-primary);
+  filter: brightness(1.1);
+  box-shadow: 0 4px 10px rgba(249, 115, 22, 0.25);
 }
 
 .exercises-container {
@@ -537,51 +552,55 @@ main {
 .exercise-row {
   background-color: var(--bg-card);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 12px;
   padding: 1rem 1.2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
   transition: var(--transition);
 }
 
 .exercise-row:hover {
-  border-color: rgba(255, 255, 255, 0.1);
+  border-color: rgba(249, 115, 22, 0.25);
   transform: translateY(-1px);
 }
 
 .exercise-row.completed {
   border-color: var(--border);
-  opacity: 0.8;
+  opacity: 0.65;
+  background-color: rgba(255, 255, 255, 0.005);
 }
 
+/* Sunset Saffron Checkbox Circle */
 .checkbox-circle {
-  width: 22px;
-  height: 22px;
-  border: 1px solid var(--border);
+  width: 24px;
+  height: 24px;
+  border: 2px solid rgba(255, 255, 255, 0.2);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   color: transparent;
-  font-size: 0.75rem;
-  background-color: var(--bg-primary);
+  font-size: 0.8rem;
+  font-weight: 800;
+  background-color: var(--bg-input);
   flex-shrink: 0;
   transition: var(--transition);
 }
 
 .checkbox-circle:hover {
-  border-color: #10b981;
+  border-color: var(--primary);
+  box-shadow: 0 0 8px rgba(249, 115, 22, 0.3);
 }
 
 .checkbox-circle.checked {
-  border-color: #10b981;
-  background-color: #10b981;
-  color: var(--bg-primary);
-  box-shadow: 0 0 8px #10b981;
+  border-color: var(--primary);
+  background-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(249, 115, 22, 0.5);
 }
 
 .exercise-details {
@@ -591,8 +610,10 @@ main {
 }
 
 .exercise-name {
-  font-size: 1rem;
-  font-weight: 600;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #ffffff;
+  transition: var(--transition);
 }
 
 .completed .exercise-name {
@@ -603,10 +624,16 @@ main {
 .exercise-info {
   font-size: 0.85rem;
   color: var(--text-muted);
+  margin-top: 0.1rem;
 }
 
 .exercise-info span {
-  color: var(--text-primary);
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.completed .exercise-info span {
+  color: var(--text-muted);
 }
 
 .btn-delete {
@@ -614,13 +641,15 @@ main {
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  padding: 0.3rem;
+  padding: 0.4rem;
   display: flex;
   transition: var(--transition);
+  border-radius: 4px;
 }
 
 .btn-delete:hover {
   color: var(--danger);
+  background-color: rgba(239, 68, 68, 0.05);
 }
 
 .btn-delete svg {
@@ -629,29 +658,107 @@ main {
   fill: currentColor;
 }
 
-/* ==========================================================================
-   COSMIC COACH VIEWPORT
-   ========================================================================== */
-.sanjay-card {
-  border: 1px dashed var(--primary);
-  background-color: rgba(212, 175, 55, 0.01);
-  padding: 1.5rem;
+.empty-arena-msg {
+  font-size: 0.9rem;
+  color: var(--text-muted);
   text-align: center;
+  padding: 2rem;
+  background-color: rgba(255, 255, 255, 0.005);
+  border: 1px dashed var(--border);
   border-radius: 8px;
+}
+
+/* ==========================================================================
+   SPARKLING INDIAN WISDOM MOTIVATIONAL CARD
+   ========================================================================== */
+.sadhana-quote-card {
+  background: linear-gradient(135deg, rgba(21, 17, 16, 0.85) 0%, rgba(35, 20, 15, 0.85) 100%);
+  border: 1px dashed rgba(249, 115, 22, 0.2);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  box-shadow: 
+    0 15px 35px rgba(0, 0, 0, 0.3),
+    0 0 20px rgba(249, 115, 22, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.sadhana-quote-card::before {
+  content: '"';
+  position: absolute;
+  top: -10px;
+  left: 20px;
+  font-family: var(--font-serif);
+  font-size: 8rem;
+  color: rgba(249, 115, 22, 0.05);
+  line-height: 1;
+}
+
+.quote-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 0.8rem;
+}
+
+.quote-text {
+  font-family: var(--font-serif);
+  font-size: 1.3rem;
+  line-height: 1.6;
+  color: #ffffff;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.quote-author {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.quote-author::before,
+.quote-author::after {
+  content: '';
+  width: 15px;
+  height: 1px;
+  background-color: rgba(249, 115, 22, 0.3);
+  display: inline-block;
+}
+
+/* संजय की दिव्य दृष्टि - Live Evaluator View style */
+.sanjay-card {
+  border: 1px dashed rgba(249, 115, 22, 0.3);
+  background-color: rgba(249, 115, 22, 0.01);
+  padding: 1.8rem;
+  text-align: center;
+  border-radius: 12px;
   margin-bottom: 2rem;
-  box-shadow: 0 0 15px rgba(212,175,55,0.03);
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.02);
 }
 
 .sanjay-card h2 {
-  font-size: 1.3rem;
-  font-weight: 700;
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 400;
   color: var(--primary);
+  letter-spacing: 1px;
 }
 
 .sanjay-card p {
   font-size: 0.9rem;
   color: var(--text-muted);
-  margin-top: 0.25rem;
+  margin-top: 0.4rem;
+  line-height: 1.6;
 }
 
 .coach-grid {
@@ -667,9 +774,9 @@ main {
 }
 
 .history-scroll {
-  background-color: var(--bg-primary);
+  background-color: var(--bg-input);
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 1rem;
   max-height: 350px;
   overflow-y: auto;
@@ -678,40 +785,45 @@ main {
 .history-row {
   display: flex;
   justify-content: space-between;
-  padding: 0.7rem 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 0.6rem;
+  border-radius: 8px;
   background-color: var(--bg-card);
   font-size: 0.9rem;
   border-left: 3px solid var(--border);
+  transition: var(--transition);
 }
 
 .history-row:hover {
   border-left-color: var(--primary);
+  background-color: rgba(249, 115, 22, 0.015);
 }
 
 .history-row span {
-  font-weight: 600;
+  font-weight: 500;
 }
 
-/* Toast Alerts */
+/* Elegant Notification Alerts (Toasts) */
 .toast-msg {
   position: fixed;
   bottom: 25px;
   right: 25px;
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
+  background-color: #120e0d;
+  border: 1px solid rgba(249, 115, 22, 0.2);
   border-left: 4px solid var(--primary);
-  border-radius: 6px;
-  color: var(--text-primary);
-  padding: 0.9rem 1.5rem;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 1rem 1.6rem;
+  box-shadow: 
+    0 10px 30px rgba(0, 0, 0, 0.5),
+    0 0 15px rgba(249, 115, 22, 0.1);
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: 500;
   z-index: 1000;
   transform: translateY(100px);
   opacity: 0;
-  transition: transform 0.3s ease, opacity 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+  pointer-events: none;
 }
 
 .toast-msg.show {
@@ -719,12 +831,13 @@ main {
   opacity: 1;
 }
 
-/* Simple Footer */
+/* Classical Simple Footer layout */
 footer {
   text-align: center;
-  padding: 2rem;
+  padding: 2.5rem;
   margin-top: auto;
   border-top: 1px solid var(--border);
   color: var(--text-muted);
   font-size: 0.85rem;
+  letter-spacing: 0.5px;
 }

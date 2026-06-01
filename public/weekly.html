@@ -3,16 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chandradip Fitness - Weekly Plan</title>
-  <meta name="description" content="Minimalist weekly schedule setup.">
+  <title>CDS FITNESS — Seal Your Weekly Splits</title>
+  <meta name="description" content="CDS FITNESS — Seal your weekly workout splits on our premium Vedic-Regal dark dashboard.">
+  <meta name="theme-color" content="#090606" />
+
+  <!-- Fonts Import: Marcellus & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Minimalist Header -->
   <header>
-    <h1 class="app-title">Chandradip Fitness</h1>
-    <p class="app-subtitle">3. Weekly Workout Plan</p>
+    <h1 class="app-title">CDS Fitness</h1>
+    <p class="app-subtitle">Step III. Weekly Splits</p>
   </header>
 
   <!-- Main Area -->
@@ -34,20 +41,47 @@
         </div>
       </form>
     </div>
+    <!-- Sadhana Indian Wisdom Quotes Panel -->
+    <div class="sadhana-quote-card">
+      <div class="quote-heading" id="quote-sanskrit">STRENGTH IS LIFE</div>
+      <div class="quote-text" id="quote-translation">"Strength is life, weakness is death. All power is within you; you can do anything and everything."</div>
+      <div class="quote-author" id="quote-author">Swami Vivekananda</div>
+    </div>
   </main>
 
   <!-- Simple Footer -->
   <footer>
-    Chandradip Fitness © 2026. Minimalist SQLite Console.
+    CDS Fitness © 2026. Vedic-Regal Discipline Mainframe.
   </footer>
 
   <!-- Toast Notification -->
   <div id="toast-alert" class="toast-msg">
-    Weekly workout plan successfully sealed in SQL archives.
+    Weekly workout plan successfully sealed in SQLite archives.
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', initWeeklyGoals);
+    // Spiritual quotes matrix
+    const INDIAN_WISDOM_QUOTES = [
+      { title: "STRENGTH IS LIFE", text: '"Strength is life, weakness is death. All power is within you; you can do anything and everything."', author: "Swami Vivekananda" },
+      { title: "POWER OF THOUGHT", text: '"We are what our thoughts have made us; so take care about what you think. Words are secondary. Thoughts live; they travel far."', author: "Swami Vivekananda" },
+      { title: "CONQUER THYSELF", text: '"It is better to conquer yourself than to win a thousand battles. Then the victory is yours. It cannot be taken from you."', author: "Gautama Buddha" },
+      { title: "STEADY WISDOM", text: '"He who holds the senses under control is indeed a person of steady wisdom. Control your mind or it will control you."', author: "Upanishads & Chanakya" },
+      { title: "DUTY & ACTION", text: '"Perform your obligatory duty with absolute focus. Dedication to work without craving the fruits is the path of self-mastery."', author: "Bhagavad Gita" },
+      { title: "SILENT DISCIPLINE", text: '"Purity, patience, and perseverance are the three essentials to success. Consistency is the fire that tempers discipline into character."', author: "Swami Vivekananda" },
+      { title: "KINDLE THE LIGHT", text: '"The sun glows not because of others, but because of its own fire. Kindle your inner light and keep your core fusion burning hot."', author: "Rig Veda" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initWeeklyGoals();
+      cycleSpiritualQuote();
+    });
+
+    function cycleSpiritualQuote() {
+      const q = INDIAN_WISDOM_QUOTES[Math.floor(Math.random() * INDIAN_WISDOM_QUOTES.length)];
+      document.getElementById('quote-sanskrit').textContent = q.title;
+      document.getElementById('quote-translation').textContent = q.text;
+      document.getElementById('quote-author').textContent = q.author;
+    }
 
     let weeklyGoals = [];
 

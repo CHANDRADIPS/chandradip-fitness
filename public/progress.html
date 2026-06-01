@@ -3,22 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chandradip Fitness - Progress Tracker</title>
-  <meta name="description" content="Minimalist progress circular tracker.">
+  <title>CDS FITNESS — Everyday Progress Tracker</title>
+  <meta name="description" content="CDS FITNESS — Dynamic everyday circular progress tracker mapping your spiritual discipline journey.">
+  <meta name="theme-color" content="#090606" />
+
+  <!-- Fonts Import: Marcellus & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
   <!-- Minimalist Header -->
   <header>
-    <h1 class="app-title">Chandradip Fitness</h1>
-    <p class="app-subtitle">2. Everyday Progress Tracker</p>
+    <h1 class="app-title">CDS Fitness</h1>
+    <p class="app-subtitle">Step II. Everyday Progress</p>
   </header>
 
   <!-- Main Area -->
   <main>
     <div class="card card-progress">
-      <h2 class="card-title">Stellar Orbit Progress</h2>
+      <h2 class="card-title">Sadhana Orbit Progress</h2>
       <p class="card-description">
         Your cumulative progress is calculated dynamically as the sum of all your daily logged workout efforts divided by the total challenge days.
       </p>
@@ -32,12 +39,16 @@
           </svg>
           <div class="progress-value-box">
             <div id="progress-display" class="progress-pct">0%</div>
-            <div class="progress-lbl">Journey Done</div>
+            <div class="progress-lbl">Sadhana Done</div>
           </div>
         </div>
 
         <!-- Summary Stats list -->
         <div class="summary-stats-box">
+          <div class="stat-row">
+            <span class="stat-lbl">Discipline Level (Rank):</span>
+            <span id="warrior-rank" class="stat-val highlight" style="color: var(--primary);">Sadhana Beginner</span>
+          </div>
           <div class="stat-row">
             <span class="stat-lbl">Body Condition Now:</span>
             <span id="stat-current" class="stat-val">Loading...</span>
@@ -56,8 +67,13 @@
           </div>
           <div class="stat-row">
             <span class="stat-lbl">Cumulative Logged effort:</span>
-            <span id="stat-cumulative" class="stat-val" style="color: var(--primary);">0%</span>
+            <span id="stat-cumulative" class="stat-val highlight" style="color: var(--primary);">0%</span>
           </div>
+        </div>
+
+        <!-- Dynamic advice text -->
+        <div id="progress-advice-tip">
+          Ignite daily training blocks to generate critical orbital trajectory in your Sadhana.
         </div>
 
         <div style="width: 100%; display: flex; flex-direction: column; gap: 0.5rem; margin-top: 1rem;">
@@ -66,15 +82,43 @@
         </div>
       </div>
     </div>
+
+    <!-- Sadhana Indian Wisdom Quotes Panel -->
+    <div class="sadhana-quote-card">
+      <div class="quote-heading" id="quote-sanskrit">STRENGTH IS LIFE</div>
+      <div class="quote-text" id="quote-translation">"Strength is life, weakness is death. All power is within you; you can do anything and everything."</div>
+      <div class="quote-author" id="quote-author">Swami Vivekananda</div>
+    </div>
   </main>
 
   <!-- Simple Footer -->
   <footer>
-    Chandradip Fitness © 2026. Minimalist SQLite Console.
+    CDS Fitness © 2026. Vedic-Regal Discipline Mainframe.
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', loadProgressStats);
+    // Spiritual quotes matrix
+    const INDIAN_WISDOM_QUOTES = [
+      { title: "STRENGTH IS LIFE", text: '"Strength is life, weakness is death. All power is within you; you can do anything and everything."', author: "Swami Vivekananda" },
+      { title: "POWER OF THOUGHT", text: '"We are what our thoughts have made us; so take care about what you think. Words are secondary. Thoughts live; they travel far."', author: "Swami Vivekananda" },
+      { title: "CONQUER THYSELF", text: '"It is better to conquer yourself than to win a thousand battles. Then the victory is yours. It cannot be taken from you."', author: "Gautama Buddha" },
+      { title: "STEADY WISDOM", text: '"He who holds the senses under control is indeed a person of steady wisdom. Control your mind or it will control you."', author: "Upanishads & Chanakya" },
+      { title: "DUTY & ACTION", text: '"Perform your obligatory duty with absolute focus. Dedication to work without craving the fruits is the path of self-mastery."', author: "Bhagavad Gita" },
+      { title: "SILENT DISCIPLINE", text: '"Purity, patience, and perseverance are the three essentials to success. Consistency is the fire that tempers discipline into character."', author: "Swami Vivekananda" },
+      { title: "KINDLE THE LIGHT", text: '"The sun glows not because of others, but because of its own fire. Kindle your inner light and keep your core fusion burning hot."', author: "Rig Veda" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      loadProgressStats();
+      cycleSpiritualQuote();
+    });
+
+    function cycleSpiritualQuote() {
+      const q = INDIAN_WISDOM_QUOTES[Math.floor(Math.random() * INDIAN_WISDOM_QUOTES.length)];
+      document.getElementById('quote-sanskrit').textContent = q.title;
+      document.getElementById('quote-translation').textContent = q.text;
+      document.getElementById('quote-author').textContent = q.author;
+    }
 
     async function loadProgressStats() {
       try {
@@ -82,8 +126,8 @@
         const profRes = await fetch('/api/profile');
         const profile = await profRes.json();
         if (profile) {
-          document.getElementById('stat-current').textContent = profile.current_condition || 'Stardust';
-          document.getElementById('stat-target').textContent = profile.target_aim || 'Supernova Core';
+          document.getElementById('stat-current').textContent = profile.current_condition || 'Sluggish';
+          document.getElementById('stat-target').textContent = profile.target_aim || 'Mighty Strength';
           document.getElementById('stat-duration').textContent = `${profile.challenge_days} Days`;
         }
 
@@ -102,6 +146,24 @@
           const circumference = 565.48;
           const offset = circumference - (pct / 100) * circumference;
           circle.style.strokeDashoffset = offset;
+
+          // Calculate Self-Discipline Ranks
+          let rank = "Sadhana Beginner";
+          if (pct > 0 && pct < 15) rank = "Discipline Novice";
+          else if (pct >= 15 && pct < 40) rank = "Focused Seeker";
+          else if (pct >= 40 && pct < 70) rank = "Steady Practitioner";
+          else if (pct >= 70 && pct < 95) rank = "Self-Mastery Yogi";
+          else if (pct >= 95) rank = "Sadhana Acharya";
+
+          document.getElementById('warrior-rank').textContent = rank;
+
+          // Dynamic advice text
+          let advice = "Ignite daily training blocks to generate critical orbital trajectory in your Sadhana.";
+          if (pct > 0) {
+            const workNeeded = (stats.total_days * 100) - stats.cumulative_work;
+            advice = `Advice: Sum of daily efforts / ${stats.total_days} challenge days. You have logged ${stats.cumulative_work.toFixed(0)}% cumulative energy. You need ${workNeeded.toFixed(0)}% more cumulative load to complete your Sadhana orbit!`;
+          }
+          document.getElementById('progress-advice-tip').textContent = advice;
         }
       } catch (err) {
         console.error('Error fetching progress calculations:', err);

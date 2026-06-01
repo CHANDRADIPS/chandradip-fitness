@@ -44,12 +44,12 @@ function updateDashboardUI(data) {
   }
 
   // 3. Clear, simple Progress Rankings
-  let rank = "Level 1: Cadet";
-  if (pct > 0 && pct < 15) rank = "Level 1: Cadet";
-  else if (pct >= 15 && pct < 40) rank = "Level 2: Apprentice";
-  else if (pct >= 40 && pct < 70) rank = "Level 3: Pioneer";
-  else if (pct >= 70 && pct < 95) rank = "Level 4: Commander";
-  else if (pct >= 95) rank = "Level 5: Champion";
+  let rank = "Sadhana Beginner";
+  if (pct > 0 && pct < 15) rank = "Discipline Novice";
+  else if (pct >= 15 && pct < 40) rank = "Focused Seeker";
+  else if (pct >= 40 && pct < 70) rank = "Steady Practitioner";
+  else if (pct >= 70 && pct < 95) rank = "Self-Mastery Yogi";
+  else if (pct >= 95) rank = "Sadhana Acharya";
   
   document.getElementById('db-warrior-rank').textContent = rank;
 

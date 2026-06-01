@@ -3,8 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chandradip Fitness - Connected Coach Dashboard</title>
-  <meta name="description" content="Connected coach dashboard showing live SQLite telemetry.">
+  <title>CDS FITNESS — Live Trainee Monitor</title>
+  <meta name="description" content="CDS FITNESS — Live SQLite companion trainee monitor designed in our premium Vedic-Regal style.">
+  <meta name="theme-color" content="#090606" />
+
+  <!-- Fonts Import: Marcellus & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,15 +19,15 @@
   <!-- Minimalist Header -->
   <header>
     <h1 class="app-title">Trainee Monitor</h1>
-    <p class="app-subtitle">Connected Companion Console</p>
+    <p class="app-subtitle">Step V. Companion Dashboard</p>
   </header>
 
   <!-- Main Area -->
   <main>
     <div class="sanjay-card">
-      <h2>Live Mainframe Data Stream</h2>
+      <h2>Sadhana Telemetry Stream</h2>
       <p>
-        This dashboard represents **"another app"** connected to the same SQL database. Progress, weekly plans, and workout logs are displayed in real-time.
+        This companion dashboard represents **"another app"** connected to the same SQLite database. Trainee progress, weekly splits, and workout logs are displayed in real-time.
       </p>
     </div>
 
@@ -75,19 +82,19 @@
           </div>
         </div>
 
-        <!-- Weekly split splits -->
+        <!-- Weekly splits splits -->
         <div class="card" style="padding: 1.5rem;">
-          <h4 class="form-label" style="color: var(--primary); margin-bottom: 0.8rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem;">Weekly Split Splits</h4>
+          <h4 class="form-label" style="color: var(--primary); margin-bottom: 0.8rem; border-bottom: 1px solid var(--border); padding-bottom: 0.3rem;">Weekly Workout Splits</h4>
           <div id="db-weekly-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; font-size: 0.8rem;">
             <!-- Loaded via dashboard.js -->
           </div>
         </div>
 
-        <!-- Starlogs timeline -->
+        <!-- Sadhana chronology timeline -->
         <div>
-          <h3 class="form-label" style="margin-bottom: 0.6rem;">Decrypted Starlogs (Recent Timeline)</h3>
+          <h3 class="form-label" style="margin-bottom: 0.6rem;">Sadhana Chronology (Recent Logs)</h3>
           <div class="history-scroll" id="db-history-list">
-            <div class="empty-arena-msg" style="padding: 1.5rem;">No logs found in the shared SQL tables.</div>
+            <div class="empty-arena-msg" style="padding: 1.5rem;">No logs found in the shared SQLite database.</div>
           </div>
         </div>
 
@@ -95,13 +102,41 @@
 
     </div>
 
+    <!-- Sadhana Indian Wisdom Quotes Panel -->
+    <div class="sadhana-quote-card" style="grid-column: 1 / -1; margin-top: 2rem;">
+      <div class="quote-heading" id="quote-sanskrit">STRENGTH IS LIFE</div>
+      <div class="quote-text" id="quote-translation">"Strength is life, weakness is death. All power is within you; you can do anything and everything."</div>
+      <div class="quote-author" id="quote-author">Swami Vivekananda</div>
+    </div>
+
   </main>
 
   <!-- Simple Footer -->
   <footer>
-    Trainee Monitor Console © 2026. Connected under Shared SQLite APIs.
+    CDS Fitness © 2026. Vedic-Regal Discipline Mainframe.
   </footer>
 
   <script src="dashboard.js"></script>
+  <script>
+    // Spiritual quotes matrix
+    const INDIAN_WISDOM_QUOTES = [
+      { title: "STRENGTH IS LIFE", text: '"Strength is life, weakness is death. All power is within you; you can do anything and everything."', author: "Swami Vivekananda" },
+      { title: "POWER OF THOUGHT", text: '"We are what our thoughts have made us; so take care about what you think. Words are secondary. Thoughts live; they travel far."', author: "Swami Vivekananda" },
+      { title: "CONQUER THYSELF", text: '"It is better to conquer yourself than to win a thousand battles. Then the victory is yours. It cannot be taken from you."', author: "Gautama Buddha" },
+      { title: "STEADY WISDOM", text: '"He who holds the senses under control is indeed a person of steady wisdom. Control your mind or it will control you."', author: "Upanishads & Chanakya" },
+      { title: "DUTY & ACTION", text: '"Perform your obligatory duty with absolute focus. Dedication to work without craving the fruits is the path of self-mastery."', author: "Bhagavad Gita" },
+      { title: "SILENT DISCIPLINE", text: '"Purity, patience, and perseverance are the three essentials to success. Consistency is the fire that tempers discipline into character."', author: "Swami Vivekananda" },
+      { title: "KINDLE THE LIGHT", text: '"The sun glows not because of others, but because of its own fire. Kindle your inner light and keep your core fusion burning hot."', author: "Rig Veda" }
+    ];
+
+    document.addEventListener('DOMContentLoaded', cycleSpiritualQuote);
+
+    function cycleSpiritualQuote() {
+      const q = INDIAN_WISDOM_QUOTES[Math.floor(Math.random() * INDIAN_WISDOM_QUOTES.length)];
+      document.getElementById('quote-sanskrit').textContent = q.title;
+      document.getElementById('quote-translation').textContent = q.text;
+      document.getElementById('quote-author').textContent = q.author;
+    }
+  </script>
 </body>
 </html>
