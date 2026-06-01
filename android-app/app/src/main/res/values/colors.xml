@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pitch_black">#080808</color>
+    <color name="charcoal">#141414</color>
+    <color name="gold">#FFD700</color>
+    <color name="saffron">#FF7600</color>
+    <color name="white">#FFFFFF</color>
+</resources>

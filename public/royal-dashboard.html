@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sanjay's Vision - Connected Royal Charioteer Dashboard</title>
+  <meta name="description" content="View the Kurukshetra training stats and real-time workout progressions of the warrior. Empowered by the shared SQLite database.">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Custom overlay adjustments for the secondary companion dashboard */
+    .sanjay-banner {
+      background: linear-gradient(135deg, #2b1100 0%, #1a0a00 100%);
+      border: 2px solid var(--saffron);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+      box-shadow: 0 5px 15px rgba(255, 153, 51, 0.15), inset 0 0 10px rgba(0,0,0,0.5);
+    }
+    .sanjay-banner h2 {
+      font-family: 'Cinzel Decorative', serif;
+      color: var(--saffron-glow);
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.8rem;
+    }
+    .sanjay-banner h2 svg {
+      width: 28px;
+      height: 28px;
+      fill: var(--saffron);
+      filter: drop-shadow(0 0 5px var(--saffron-glow));
+    }
+    .sanjay-banner p {
+      color: var(--parchment-dark);
+      font-size: 0.95rem;
+      margin-top: 0.5rem;
+      font-style: italic;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr;
+      gap: 2rem;
+    }
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .stone-history-scroll {
+      background: linear-gradient(135deg, #180909 0%, #0d0404 100%);
+      border: 1px solid var(--gold-dark);
+      border-radius: 8px;
+      padding: 1.5rem;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    .history-log-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 1rem;
+      margin-bottom: 0.6rem;
+      border-radius: 4px;
+      background: var(--bg-tertiary);
+      border-left: 3px solid var(--saffron);
+      font-size: 0.9rem;
+    }
+    .history-log-row:hover {
+      background: rgba(255, 153, 51, 0.08);
+      border-left-color: var(--gold-glow);
+    }
+    .history-log-date {
+      font-family: 'Cinzel', serif;
+      color: var(--parchment);
+    }
+    .history-log-pct {
+      font-family: 'Cinzel', serif;
+      font-weight: 700;
+      color: var(--gold-glow);
+    }
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--saffron);
+      border-radius: 50%;
+      display: inline-block;
+      box-shadow: 0 0 10px var(--saffron-glow);
+      animation: pulseDot 1.5s infinite alternate;
+    }
+    @keyframes pulseDot {
+      from { transform: scale(0.8); opacity: 0.5; }
+      to { transform: scale(1.2); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Epic Top Header -->
+  <header>
+    <div class="royal-header-content">
+      <div class="royal-logo-container">
+        <!-- Chariot Wheel SVG (representing Sanjay's Divine Lens) -->
+        <svg class="logo-weapon" viewBox="0 0 24 24" style="animation: floatWeapon 4s ease-in-out infinite;">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm0-11c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="var(--saffron)"/>
+        </svg>
+        <div>
+          <h1 class="royal-title" style="background: linear-gradient(to right, #ff9933 0%, #d4af37 50%, #ffd700 100%); -webkit-background-clip: text;">Sanjay's Divine Vision</h1>
+          <p class="royal-subtitle" style="color: var(--gold);">Connected Warrior Dashboard</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Timeless Bhagavad Gita Quotes Display -->
+  <div class="gita-quote-banner">
+    <span class="gita-sanskrit">तत्रैवं सति कर्तारमात्मानं केवलं तु यः</span>
+    <span class="gita-translation">"Seeing through the divine eye, the actions and efforts of the warrior are mapped in absolute truth."</span>
+  </div>
+
+  <!-- Main Viewports -->
+  <main style="margin-top: 1rem;">
+
+    <!-- Sanjay Banner explaining the Cross-App Data Sharing concept -->
+    <div class="sanjay-banner">
+      <h2>
+        <span class="live-dot"></span>
+        Divya Drishti: Live Database Stream
+      </h2>
+      <p>
+        This dashboard represents <strong>"another app"</strong> that is connected to the primary training console. By reading from the shared SQLite database, it shows real-time progress, scheduled splits, and daily training logs of your trainee warrior.
+      </p>
+    </div>
+
+    <!-- Connected Dashboard Cards -->
+    <div class="dashboard-grid">
+      
+      <!-- Column 1: Live Profile & Progress Wheel -->
+      <div class="royal-card" style="display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem; border-color: var(--saffron);">
+        <h3 class="card-title-arena" style="color: var(--saffron-glow); width: 100%;">🛡️ Trainee Warrior Profile</h3>
+        
+        <div class="chariot-wheel-svg-container">
+          <svg width="240" height="240" viewBox="0 0 260 260">
+            <!-- Spokes rotating background -->
+            <g class="wheel-spokes" style="stroke: var(--saffron); opacity: 0.2;">
+              <circle cx="130" cy="130" r="120" stroke="var(--saffron)" stroke-width="1" fill="none"/>
+              <line x1="130" y1="10" x2="130" y2="250" />
+              <line x1="10" y1="130" x2="250" y2="130" />
+            </g>
+            <circle cx="130" cy="130" r="120" class="wheel-circle-bg" />
+            <circle id="db-progress-circle" cx="130" cy="130" r="120" class="wheel-circle-progress" style="stroke: var(--saffron-glow); filter: drop-shadow(0 0 8px var(--saffron-glow));" />
+          </svg>
+          <div class="wheel-inner-title-box" style="border-color: rgba(255, 153, 51, 0.3);">
+            <div class="wheel-progress-pct" id="db-percentage" style="color: var(--saffron-glow); text-shadow: 0 0 10px var(--saffron-glow);">0%</div>
+            <div class="wheel-progress-label" style="color: var(--parchment);">Journey Done</div>
+          </div>
+        </div>
+
+        <div class="warrior-rank-badge" style="background: linear-gradient(135deg, #3a1500 0%, #1a0600 100%); border-color: var(--saffron); color: var(--saffron-glow); width: 100%; margin-top: 0.5rem;">
+          WARRIOR STATURE:
+          <div class="warrior-rank-title" id="db-warrior-rank" style="color: var(--parchment);">Loading...</div>
+        </div>
+      </div>
+
+      <!-- Column 2: Details Split and History -->
+      <div style="display: flex; flex-direction: column; gap: 2rem;">
+        
+        <!-- Live summary stats -->
+        <div class="warrior-stats-scroll" style="border-left-color: var(--saffron);">
+          <h3 class="stats-headline" style="color: var(--saffron-glow);">⚔️ Shared Registry Metrics</h3>
+          <div class="stat-shield-row">
+            <span class="stat-shield-label">Active Warrior:</span>
+            <span class="stat-shield-value" id="db-warrior-name">Chandradip Fitness Fanatic</span>
+          </div>
+          <div class="stat-shield-row">
+            <span class="stat-shield-label">Current Condition:</span>
+            <span class="stat-shield-value" id="db-current-condition">Untrained Archer</span>
+          </div>
+          <div class="stat-shield-row">
+            <span class="stat-shield-label">Aimed Stature:</span>
+            <span class="stat-shield-value" id="db-target-aim">Mighty Maharathi</span>
+          </div>
+          <div class="stat-shield-row">
+            <span class="stat-shield-label">Tapasya Duration:</span>
+            <span class="stat-shield-value" id="db-tapasya-duration">50 Days</span>
+          </div>
+          <div class="stat-shield-row">
+            <span class="stat-shield-label">Cumulative Effort Sum:</span>
+            <span class="stat-shield-value highlight" style="color: var(--saffron-glow);" id="db-cumulative-work">0%</span>
+          </div>
+        </div>
+
+        <!-- Weekly training split loaded dynamically -->
+        <div class="royal-card" style="padding: 1.5rem; background: var(--bg-tertiary);">
+          <h4 class="label-warrior" style="color: var(--gold-glow); font-size: 0.9rem; margin-bottom: 0.8rem; border-bottom: 1px solid rgba(212,175,55,0.15); padding-bottom: 0.3rem;">📅 Active Weekly Split</h4>
+          <div id="db-weekly-list" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; font-size: 0.8rem;">
+            <!-- Loaded via dashboard.js -->
+          </div>
+        </div>
+
+        <!-- Scroll of daily archives -->
+        <div>
+          <h3 class="label-warrior" style="margin-bottom: 0.8rem;">📜 Royal Stone Logs (Recent Workout History)</h3>
+          <div class="stone-history-scroll" id="db-history-list">
+            <div class="empty-arena-msg" style="padding: 1.5rem;">No battle footprints logged yet in the shared stone scrolls. Complete daily tasks!</div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- Majestic Footer -->
+  <footer>
+    <div class="footer-quote">"द्रोणः कर्णश्च शल्यश्च यदा यत्स्यन्ति संयुगे ।"</div>
+    <div>Sanjay's Vision Companion App © 2026. Empowered by Shared SQLite and Express APIs.</div>
+  </footer>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>

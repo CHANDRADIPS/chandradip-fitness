@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chandradip Fitness - The Warrior's Arena</title>
+  <meta name="description" content="Embark on a divine physical transformation with Chandradip Fitness, guided by the timeless training splits and quotes of the Mahabharata.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Epic Top Header -->
+  <header>
+    <div class="royal-header-content">
+      <div class="royal-logo-container">
+        <!-- Bow and Arrow SVG (representing Gandiva) -->
+        <svg class="logo-weapon" viewBox="0 0 100 100">
+          <path d="M50 90 C72 90 90 72 90 50 C90 28 72 10 50 10" stroke="var(--gold)" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <line x1="50" y1="10" x2="50" y2="90" stroke="rgba(212, 175, 55, 0.4)" stroke-width="1.5" stroke-dasharray="4"/>
+          <path d="M20 50 L80 50 M70 45 L80 50 L70 55" stroke="var(--saffron)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div>
+          <h1 class="royal-title">Chandradip Fitness</h1>
+          <p class="royal-subtitle">The Kurukshetra Training Arena</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Battle Navigation (Vantage Point Selectors) -->
+    <nav class="battle-navigation">
+      <button class="nav-shield-btn active" onclick="switchTab('gateway')">
+        <svg viewBox="0 0 24 24"><path d="M12 2C11.5 2 2 4.5 2 11c0 5.5 4.5 10 10 11 5.5-1 10-5.5 10-11 0-6.5-9.5-9-10-9zm0 18c-4.4-1-8-4.6-8-9 0-3.9 5.8-5.8 8-6.3v15.3z"/></svg>
+        Gateway
+      </button>
+      <button class="nav-shield-btn" onclick="switchTab('progress')">
+        <!-- Chariot Wheel / Pie Chart Icon -->
+        <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L13 17.93zm.67-1.01l-5.6-5.6 5.6-5.6v11.2zM18 12c0 2.97-1.62 5.56-4 6.93v-13.8c2.38 1.37 4 3.96 4 6.87z"/></svg>
+        Chariot Progress
+      </button>
+      <button class="nav-shield-btn" onclick="switchTab('dharma')">
+        <!-- Weekly Scroll Icon -->
+        <svg viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+        Dharma Schedule
+      </button>
+      <button class="nav-shield-btn" onclick="switchTab('astra')">
+        <!-- Crossed Swords/Weapons Icon -->
+        <svg viewBox="0 0 24 24"><path d="M12 2L2 22h20L12 2zm0 3.99L18.8 18H5.2L12 5.99zM11 10h2v4h-2v-4zm0 6h2v2h-2v-2z"/></svg>
+        Today's Astra
+      </button>
+    </nav>
+  </header>
+
+  <!-- Timeless Bhagavad Gita Quotes Display -->
+  <div class="gita-quote-banner" id="gita-quote-container">
+    <span class="gita-sanskrit" id="gita-sanskrit">योगः कर्मसु कौशलम्</span>
+    <span class="gita-translation" id="gita-translation">"Yoga is skill and discipline in action. Keep striving, O Arjuna."</span>
+  </div>
+
+  <!-- Main Viewports -->
+  <main>
+
+    <!-- VANTAGE POINT 1: THE GATEWAY (ONBOARDING & PROFILE) -->
+    <section id="vantage-gateway" class="vantage-point active">
+      <div class="royal-card">
+        <h2 class="card-title-arena">
+          <svg viewBox="0 0 24 24"><path d="M12 2a5 5 0 1 0 5 5 5 5 0 0 0-5-5zm0 12c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5z"/></svg>
+          Enter the Warrior's Registry
+        </h2>
+        <p class="card-description">
+          Before taking up weapons at Kurukshetra, define your current mortal state and visualize the divine stature you aim to attain. Your profile is stored in the royal stone archives (SQL).
+        </p>
+
+        <form id="profile-form" class="royal-form" onsubmit="saveProfile(event)">
+          <div class="form-group-battle">
+            <label class="label-warrior" for="current_condition">Your Current Body Condition</label>
+            <input type="text" id="current_condition" class="input-chariot" placeholder="e.g. Untrained Archer, Frail Merchant, Sluggish Citizen..." required>
+            <div class="battle-presets-container">
+              <span class="preset-badge" onclick="setPreset('current_condition', 'Untrained Archer')">Untrained Archer</span>
+              <span class="preset-badge" onclick="setPreset('current_condition', 'Frail Merchant')">Frail Merchant</span>
+              <span class="preset-badge" onclick="setPreset('current_condition', 'Sluggish Citizen')">Sluggish Citizen</span>
+            </div>
+          </div>
+
+          <div class="form-group-battle">
+            <label class="label-warrior" for="target_aim">Your Aimed Warrior Body Type</label>
+            <input type="text" id="target_aim" class="input-chariot" placeholder="e.g. Mighty Bheema (Strength), Swift Arjuna (Agility), Tenacious Karna (Endurance)..." required>
+            <div class="battle-presets-container">
+              <span class="preset-badge" onclick="setPreset('target_aim', 'Mighty Bheema (Mass & Strength)')">Mighty Bheema</span>
+              <span class="preset-badge" onclick="setPreset('target_aim', 'Swift Arjuna (Lean Agility)')">Swift Arjuna</span>
+              <span class="preset-badge" onclick="setPreset('target_aim', 'Karna (Peak Endurance)')">Tenacious Karna</span>
+            </div>
+          </div>
+
+          <div class="form-group-battle">
+            <label class="label-warrior" for="challenge_days">Duration of the Tapasya (Challenge Days)</label>
+            <input type="number" id="challenge_days" class="input-chariot" value="50" min="5" max="365" required>
+            <div class="battle-presets-container">
+              <span class="preset-badge" onclick="setPreset('challenge_days', 30)">30 Days Sprint</span>
+              <span class="preset-badge" onclick="setPreset('challenge_days', 50)">50 Days Tapasya</span>
+              <span class="preset-badge" onclick="setPreset('challenge_days', 100)">100 Days War</span>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-gandiva-submit">
+            <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            Inscribe on the Stone Pillar
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- VANTAGE POINT 2: CHARIOT PROGRESS (DYNAMIC WHEEL OVERALL PROGRESS) -->
+    <section id="vantage-progress" class="vantage-point">
+      <div class="royal-card">
+        <h2 class="card-title-arena">
+          <svg viewBox="0 0 24 24"><path d="M12 22c5.52 0 10-4.48 10-10S17.52 2 12 2 2 6.48 2 12s4.48 10 10 10zm-1-17.93c3.95.49 7 3.85 7 7.93 0 .62-.08 1.21-.21 1.79L11 4.07zm-2 1.01v13.84L3.4 12 9 5.08zm4 12.85V4.07l5.6 9.77-5.6 4.09z"/></svg>
+          The Chariot Wheel of Progress
+        </h2>
+        <p class="card-description">
+          The rotation of this golden wheel represents your complete journey. The total progress is calculated live as the sum of all your daily logged efforts divided by the duration of your Tapasya.
+        </p>
+
+        <div class="progress-chariot-layout">
+          <!-- Circular wheel SVG visualization -->
+          <div class="wheel-visualization-container">
+            <div class="chariot-wheel-svg-container">
+              <svg width="280" height="280" viewBox="0 0 260 260">
+                <defs>
+                  <linearGradient id="goldGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffd700" />
+                    <stop offset="50%" stop-color="#d4af37" />
+                    <stop offset="100%" stop-color="#aa7c11" />
+                  </linearGradient>
+                </defs>
+                <!-- Spokes rotating background -->
+                <g class="wheel-spokes">
+                  <circle cx="130" cy="130" r="120" stroke="var(--gold-dark)" stroke-width="1" fill="none"/>
+                  <line x1="130" y1="10" x2="130" y2="250" />
+                  <line x1="10" y1="130" x2="250" y2="130" />
+                  <line x1="45.15" y1="45.15" x2="214.85" y2="214.85" />
+                  <line x1="45.15" y1="214.85" x2="214.85" y2="45.15" />
+                </g>
+                <!-- Static Outer/Inner bounds -->
+                <circle cx="130" cy="130" r="120" class="wheel-circle-bg" />
+                <!-- Dynamic progress circle -->
+                <circle id="progress-circle-radial" cx="130" cy="130" r="120" class="wheel-circle-progress" />
+              </svg>
+              <!-- Center Progress Counter -->
+              <div class="wheel-inner-title-box">
+                <div class="wheel-progress-pct" id="wheel-percentage">0%</div>
+                <div class="wheel-progress-label">Journey Completed</div>
+              </div>
+            </div>
+
+            <div class="warrior-rank-badge">
+              YOUR WARRIOR RANK:
+              <div class="warrior-rank-title" id="warrior-rank">Novice Cadet</div>
+            </div>
+          </div>
+
+          <!-- Dynamic Statistics Scroll -->
+          <div class="warrior-stats-scroll">
+            <h3 class="stats-headline">⚔️ Arena Log Summary</h3>
+            <div class="stat-shield-row">
+              <span class="stat-shield-label">Current Condition:</span>
+              <span class="stat-shield-value" id="stats-current">Untrained Archer</span>
+            </div>
+            <div class="stat-shield-row">
+              <span class="stat-shield-label">Aimed Stature:</span>
+              <span class="stat-shield-value" id="stats-target">Swift Arjuna</span>
+            </div>
+            <div class="stat-shield-row">
+              <span class="stat-shield-label">Tapasya Duration:</span>
+              <span class="stat-shield-value" id="stats-duration">50 Days</span>
+            </div>
+            <div class="stat-shield-row">
+              <span class="stat-shield-label">Days Logged:</span>
+              <span class="stat-shield-value" id="stats-logged">0 Days</span>
+            </div>
+            <div class="stat-shield-row">
+              <span class="stat-shield-label">Cumulative Tapasya:</span>
+              <span class="stat-shield-value highlight" id="stats-cumulative">0%</span>
+            </div>
+
+            <div class="progress-tip-box">
+              <strong>Charioteer's Advice (Gita Guidance):</strong>
+              <p id="progress-advice-tip">
+                "Arise, O Prince! A single day of disciplined work is a stone laid in the path of your monumental chariot. Check off your daily Astra to spin the wheel."
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VANTAGE POINT 3: THE DHARMA SCHEDULE (WEEKLY GOAL PARCHMENT) -->
+    <section id="vantage-dharma" class="vantage-point">
+      <div class="scroll-parchment-container">
+        <h2 class="card-title-arena">
+          <svg viewBox="0 0 24 24"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1c-1.3 0-2.4.84-2.82 2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm2 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+          The Dharma Training Schedule
+        </h2>
+        <p class="card-description" style="color: var(--text-dark); opacity: 0.85;">
+          Chart your daily workout layout. What weapons are you training on each day of the week? Changing these values will update today's focus area dynamically across all connected viewers.
+        </p>
+
+        <form id="weekly-goals-form" onsubmit="saveWeeklyGoals(event)">
+          <div class="weekly-split-scroll" id="weekly-days-list">
+            <!-- Dynamically populated day parchment cards -->
+          </div>
+          
+          <button type="submit" class="btn-gandiva-submit" style="margin-top: 2rem; background: linear-gradient(135deg, var(--crimson) 0%, #440000 100%);">
+            <svg viewBox="0 0 24 24"><path d="M17 3H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+            Seal the Weekly Battle Plan
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- VANTAGE POINT 4: TODAY'S GOAL & ASTRA LOGS -->
+    <section id="vantage-astra" class="vantage-point">
+      <div class="today-astra-layout">
+        
+        <!-- Left Side: Date selection, Focus Area, and Sync Slider -->
+        <div class="battle-date-picker">
+          <h3 class="label-warrior" style="text-align: center; margin-bottom: 0;">Select Battle Date</h3>
+          <input type="date" id="astra-log-date" class="calendar-shield-input" onchange="loadAstraForDate()">
+          
+          <div class="today-focus-shield">
+            <div class="focus-lbl">Dharma Focus For Today</div>
+            <div class="focus-val" id="today-focus-value">Back & Biceps</div>
+          </div>
+
+          <!-- Dynamic Daily Sync Tracker Slider -->
+          <div class="sync-tracker-box">
+            <div class="sync-tracker-label">Daily Challenge Percentage Tracker</div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+              Manually fine-tune or view this day's work. Complete exercises to auto-calculate!
+            </p>
+            <div class="sync-tracker-row">
+              <input type="range" id="daily-progress-slider" class="sync-tracker-slider" min="0" max="100" value="0" oninput="updateDailyProgressFromSlider(this.value)">
+              <span class="sync-tracker-value" id="daily-slider-display">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Side: Adding Exercises and Checked off blocks -->
+        <div class="exercise-commander-box">
+          
+          <!-- Exercise Add Block Form -->
+          <div class="astra-creator-form">
+            <h4>⚔️ Summon New Training Astra (Add Exercise)</h4>
+            <form id="add-exercise-form" onsubmit="addNewExercise(event)">
+              <div class="astra-creator-grid">
+                <input type="text" id="ex-name" class="input-chariot" placeholder="Exercise Name (e.g. Deadlift)" required>
+                <input type="number" id="ex-weight" class="input-chariot" placeholder="Weight (kg/lb)" min="0" required>
+                
+                <div style="display: flex; gap: 0.2rem;">
+                  <input type="number" id="ex-sets" class="input-chariot" placeholder="Sets" min="1" value="3" required style="width: 50%;">
+                  <input type="number" id="ex-reps" class="input-chariot" placeholder="Reps" min="1" value="10" required style="width: 50%;">
+                </div>
+
+                <button type="submit" class="btn-astra-add">SUMMON</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Exercise Blocks Listing -->
+          <h3 class="label-warrior">🛡️ Today's Training Astra Blocks</h3>
+          <div class="astra-blocks-list-container" id="exercises-list">
+            <!-- Dynamically populated blocks with Weight (kg/lb) and Sets, and a Daily Checkbox -->
+            <div class="empty-arena-msg">No exercises summoned yet for this day. Summon an Astra above to begin your battle.</div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Majestic Footer -->
+  <footer>
+    <div class="footer-quote">"कर्मण्येवाधिकारस्ते मा फलेषु कदाचन ।"</div>
+    <div>Chandradip Fitness © 2026. Connected under Sanjay's Divine Vision. Built in the light of Gandiva.</div>
+  </footer>
+
+  <!-- Majestic Toast Notification -->
+  <div id="royal-toast-box" class="royal-toast">
+    <span class="royal-toast-icon">⚜️</span>
+    <span id="royal-toast-message">The stone archives have been updated.</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

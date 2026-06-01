@@ -1,0 +1,32 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Local SQLite Database files
+fitness.db
+fitness.db-journal
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# VS Code configurations
+.vscode/
+
+# Android Build & Project files
+android-app/.gradle/
+android-app/build/
+android-app/app/build/
+android-app/local.properties
+android-app/.idea/
+android-app/*.iml
+android-app/app/app.iml
+android-app/.cxx/
+android-app/captures/
+.externalNativeBuild/
+
+# Gradle wrapper caches
+.gradle/
+build/

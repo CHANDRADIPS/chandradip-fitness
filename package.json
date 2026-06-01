@@ -1,0 +1,16 @@
+{
+  "name": "chandradip-fitness",
+  "version": "1.0.0",
+  "description": "Mahabharata themed fitness tracking application with shared SQL database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "sqlite3": "^5.1.7"
+  },
+  "author": "Antigravity",
+  "license": "ISC"
+}
